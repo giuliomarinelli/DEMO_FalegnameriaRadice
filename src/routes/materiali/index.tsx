@@ -126,7 +126,7 @@ export default component$(() => (
             indicazioni della finitura effettiva.
           </p>
           <a class="text-link mt-5" href="/configuratore/">
-            Ritrova essenze e finiture nell’anteprima{" "}
+            Prova essenze e finiture nel configuratore{" "}
             <span aria-hidden="true">↗</span>
           </a>
         </div>
