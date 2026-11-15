@@ -4,7 +4,7 @@ Sito dimostrativo per una falegnameria artigiana **fittizia**. Azienda, informaz
 
 Stato: **milestone 3**, configuratore interattivo sulle fondamenta Qwik City SSR e sull’identità noce/betulla/rame/salvia. Tavolo, libreria e madia con tre essenze, tre finiture, misure vincolate, disegno proporzionale e stima simulata aggiornata con dettaglio dei fattori. Reset e riepilogo copiabile, con alternativa manuale. La formula è deterministica e documentata; nessun dato viene salvato o inviato.
 
-**Collaudo 4A:** corretto il difetto che nascondeva i controlli dopo una modifica Qwik. Disponibili 18 catture desktop/tablet/mobile, 68 verifiche native del configuratore e prove da tastiera su skip link/menu/navigazione. Restano 320 px, percorso completo da tastiera nel configuratore e altri casi dichiarati: nella fase esclusiva MCP non ha risposto all’elenco schede, con sito HTTP regolarmente disponibile. Copertura esatta e procedura manuale in [QA_CHECKLIST](docs/QA_CHECKLIST.md). Audit dipendenze ancora con 12 segnalazioni, analizzate senza aggiornamenti forzati.
+**Collaudo 4A:** corretto il difetto che nascondeva i controlli dopo una modifica Qwik. Completati 68 casi nativi, percorso da tastiera del configuratore, copia/incolla reali e 24 catture delle sei pagine a 1440/768/390/320 px. Rettificata la precedente attribuzione non dimostrata di un guasto a MCP. Prove effettive, simulazioni e residui specifici in [QA_CHECKLIST](docs/QA_CHECKLIST.md). Audit dipendenze ancora con 12 segnalazioni, analizzate senza aggiornamenti forzati.
 
 ## Avvio locale
 

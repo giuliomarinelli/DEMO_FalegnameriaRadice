@@ -96,4 +96,4 @@ Remove-Item Env:TEST_BASE_URL
 
 La simulazione DOM non verifica layout, tastiera fisica, permessi della clipboard del browser o ripresa Qwik dalla pagina di produzione. Per la matrice manuale vedere [DEPLOYMENT](DEPLOYMENT.md); esiti realmente ottenuti e blocchi in [WORKLOG](WORKLOG.md).
 
-Il successivo [collaudo 4A](QA_CHECKLIST.md) aggiunge evidenza della ripresa sulla produzione Pages, delle variazioni e degli estremi nel browser, con copertura e limiti espliciti. Non equivale ad accettazione completa da tastiera o su tutti i viewport.
+Il successivo [collaudo 4A](QA_CHECKLIST.md) aggiunge evidenza della ripresa sulla produzione Pages, degli estremi, del percorso completo da tastiera, di copia/incolla reali e della resa sulle quattro larghezze. Il fallback è provato anche nel browser con rifiuto API simulato e ripristino della modifica temporanea. Restano distinti la revoca reale del permesso e la prova visuale con JS disabilitato; nessuna certificazione WCAG o compatibilità con tutti i browser.

@@ -1,86 +1,72 @@
-# Collaudo 4A — evidenze e procedura manuale
+# Collaudo 4A — risultati verificati e riproduzione
 
-15 novembre 2026. Baseline `b470451`; correzioni applicative `3eeead1` e `859c1b1`. Build Qwik City SSR eseguita con adapter Pages ufficiale, poi Wrangler locale 4.162.0 su `http://127.0.0.1:8790`. Il runtime è stato arrestato prima della ricostruzione e riavviato sulla build corretta. Nessun test usa `vite dev` come prova di produzione.
+15 novembre 2026. Codice applicativo `859c1b1`, invariato durante il completamento del collaudo. Qwik City SSR, adapter Pages ufficiale, Wrangler locale 4.162.0 su `http://127.0.0.1:8790`. Prima delle chiamate browser verificata risposta HTTP 200 con stima iniziale nell’HTML. Scheda dedicata; URL e viewport controllati prima delle sequenze. Nessun deployment o intervento sui processi browser condivisi.
 
-**Esito: collaudo parziale, con difetto bloccante corretto e controlli manuali residui.** Non è un’accettazione completa mobile/tastiera, un audit WCAG o una prova di deployment.
+**Rettifica:** la precedente attribuzione del mancato esito di alcune richieste a un guasto/blocco del servizio MCP non era dimostrata e viene ritirata. Le operazioni interrotte, i timeout di singole catture e gli errori di preparazione del test non provano un malfunzionamento generale di Playwright. La ripresa ha completato le verifiche principali riportate sotto.
 
-## Copertura visuale effettiva
+## Copertura responsive e visuale
 
-| Rotta | 1440 × 1000 | 768 × 1024 | 390 × 844 | 320 px |
+| Rotta | 1440 × 1000 | 768 × 1024 | 390 × 844 | 320 × 800 |
 | --- | --- | --- | --- | --- |
-| Home | Misure DOM e screenshot | Misure DOM e screenshot | Screenshot rivisto | Da eseguire |
-| Lavorazioni | Misure DOM e screenshot | Misure DOM e screenshot | Screenshot rivisto | Da eseguire |
-| Portfolio | Misure DOM e screenshot | Misure DOM e screenshot | Screenshot rivisto | Da eseguire |
-| Materiali | Misure DOM e screenshot | Misure DOM e screenshot | Screenshot rivisto | Da eseguire |
-| Configuratore | Misure DOM e screenshot | Misure DOM e screenshot | Screenshot rivisto, stato iniziale | Da eseguire |
-| Contatti | Misure DOM e screenshot | Misure DOM e screenshot | Screenshot recuperato e rivisto | Da eseguire |
+| Home | DOM + screenshot | DOM + screenshot | Screenshot | DOM + screenshot |
+| Lavorazioni | DOM + screenshot | DOM + screenshot | Screenshot | DOM + screenshot |
+| Portfolio | DOM + screenshot | DOM + screenshot | Screenshot | DOM + screenshot |
+| Materiali | DOM + screenshot | DOM + screenshot | Screenshot | DOM + screenshot |
+| Configuratore | DOM + screenshot | DOM + screenshot | Screenshot e tastiera | DOM + screenshot |
+| Contatti | DOM + screenshot | DOM + screenshot | Screenshot | DOM + screenshot |
 
-Dodici misurazioni DOM restituite dal browser: sei rotte a 1440 e a 768, HTTP 200, un H1, nessun elemento del main oltre i bordi orizzontali e nessun overflow del documento. `scrollWidth` rispettivamente 1425 e 753 px, con scrollbar verticale da 15 px. Le immagini catturate hanno quindi larghezza 1425/753/375 px rispetto ai viewport impostati 1440/768/390. È un browser desktop ridimensionato, non un dispositivo mobile reale.
+**24 screenshot completi della matrice rivisti**, più catture della 404 e del fallback di copia. **18 misurazioni DOM delle pagine pubbliche**, a 1440/768/320: un H1, nessun overflow del documento o elemento main oltre i bordi orizzontali. Non sono 24 misurazioni numeriche: a 390 l’evidenza della matrice è visuale. La 404 ha una misurazione separata.
 
-**18 screenshot finali** salvati e rivisti: sei desktop, sei tablet, sei mobile. Contatti a 390 è stato recuperato dopo una nuova richiesta al server MCP, autorizzata dal proprietario. Le catture mostrano gerarchia coerente, testo senza sovrapposizioni, immagini e didascalie nei rispettivi contenitori, campioni e schede riconoscibili. A 768 il portfolio è in sequenza; a 390 controlli e riepilogo del configuratore sono in una colonna. Non emergono tagli orizzontali nelle sei catture mobili; la prima routine mobile non ha restituito il report numerico finale e le operazioni interrotte non sono contate. Nessuna evidenza a 320: non viene dichiarata superata una matrice di 24 misurazioni.
+A 320 tutte le sei pagine riportano `clientWidth=scrollWidth=320`, nessun elemento main fuori bordo e tutte le immagini caricate. I cinque controlli numerici/select del configuratore occupano 272 px entro la shell. Header e menu vanno su due righe senza uscire dal viewport; titoli, schede, input, fattori di prezzo e footer restano nei contenitori. Quote SVG piccole sono duplicate nei testi delle schede/riepilogo. Non rilevati nuovi difetti applicativi riproducibili o motivi per un restyling.
 
-Nelle prime letture desktop due immagini lazy non erano ancora pronte: non sono state classificate come risorse rotte. Per le catture complete si è impostato temporaneamente `loading=eager` nel DOM di test e attesa la decodifica con un limite di due secondi. Nessun attributo del prodotto è stato modificato nel repository. Le foto risultano visibili nelle catture finali; la suite HTTP verifica tutte le varianti. Questa preparazione **non prova il caricamento lazy durante uno scroll naturale**: tale prova rimane manuale.
+Le prime catture hanno larghezze utili 1425/753/375 px per viewport 1440/768/390, a causa della scrollbar. Le catture finali a 320 sono larghe 320 px. È un browser desktop ridimensionato, non un dispositivo mobile reale o una prova Safari.
 
-Contrasto ricalcolato sui token solidi: noce/carta 12,76:1, noce/betulla 10,51:1, bruno/carta 5,87:1, bruno/betulla 4,84:1, rame scuro/carta 5,83:1, rame scuro/betulla 4,80:1. Nessuna nuova palette introdotta. Non sono rapporti misurati su ogni pixel delle foto, su tutte le trasparenze o su tutti gli stati. Le quote SVG ridotte sono piccole su mobile: i valori essenziali sono ripetuti come testo nel riepilogo e nelle schede.
+Contrasto dei token solidi: noce/carta 12,76:1; noce/betulla 10,51:1; bruno/carta 5,87:1; bruno/betulla 4,84:1; rame scuro/carta 5,83:1; rame scuro/betulla 4,80:1. Non è una certificazione WCAG di ogni pixel, trasparenza o stato.
 
-## Funzionamento e difetto corretto
+## Funzionamento verificato
 
-Prima della correzione, al caricamento diretto i controlli erano visibili (`display:block`, larghezza circa 650 px a 1440). Dopo aver cambiato L da 180 a 201, il prezzo diventava 513,99 € ma i controlli passavano a `display:none`, larghezza zero. Il browser mostrava una regola CSS attiva dentro `noscript`: durante l’aggiornamento reattivo Qwik ne ricreava i figli come nodi DOM.
+- **68/68 asserzioni native già concluse e non ripetute:** nove coppie di limiti; 18 estremi con prezzo esatto ricostruito indipendentemente; 18 adiacenti rifiutati; errori; vuoto/decimale; copia disabilitata in errore; reset completo; controlli visibili dopo gli aggiornamenti. Radio, select, fill e clic Playwright sul bundle reale, senza importare il modello nel browser.
+- Esempi confermati: tavolo iniziale **483,18 €**, L 200 **512,52 €**, L 201 **513,99 €**; libreria frassino/opaca **884,74 €**; madia noce/pigmentato **1.300,41 €**. Formula in [CONFIGURATOR](CONFIGURATOR.md).
+- **Percorso completo da tastiera a 390:** Tab sullo skip link, Invio al main, Tab alla radio; ArrowRight seleziona Libreria; Tab/ArrowDown scelgono Frassino e Trasparente opaca; Tab attraversa il link materiali e raggiunge L; Ctrl+A e digitazione di 100 producono **904,59 €**. L’outline osservato è di 3 px.
+- Tab a H, Ctrl+A e 0: errore «Scegli una misura da 80 a 220 cm.», prezzo assente e copia disabilitata. Tab attraversa P e raggiunge il reset; Invio ripristina tavolo/rovere/olio naturale, L/H/P 180/75/90, **483,18 €**, zero errori. Tab raggiunge la copia; Spazio la attiva.
+- **Clipboard reale:** l’API risolve e compare la conferma. Ctrl+V incolla il risultato in un campo QA temporaneo della sola pagina: 11 verifiche positive su intestazione, versione, tipo, essenza, finitura, misure, tre fattori, totale e disclaimer. Campo rimosso subito dopo; nessuna funzione di prodotto aggiunta. Il permesso di scrittura risulta `granted`, quello di lettura `prompt`; non sono stati modificati i permessi.
+- **Fallback nel browser:** un `NotAllowedError` viene simulato sostituendo temporaneamente la sola Clipboard API della pagina, con ripristino nel `finally`. Il riepilogo readonly appare con prezzo corrente **512,52 €** e disclaimer, senza falsa conferma. È simulazione di un rifiuto API, **non** prova della revoca di un permesso reale nelle impostazioni Chrome.
+- **Lazy loading:** sulla homepage a 320 lo scroll tramite rotella carica la foto successiva, che conserva `loading="lazy"`. Nelle altre pagine le immagini sono state portate nel viewport e decodificate senza cambiare l’attributo. Le vecchie catture a 1440/768/390 avevano usato `loading=eager` solo nel DOM di test: non sono la prova di lazy loading ora aggiunta.
+- **404:** richiesta diretta HTTP 404, titolo e H1 corretti, nessun overflow a 320, screenshot rivisto; il clic nativo su «Torna alla homepage» raggiunge `/`. L’unico messaggio console della 404 è il caricamento HTTP 404 atteso, non un’eccezione JavaScript applicativa.
 
-Correzione: rimosso lo `style` da `noscript`, mantenuta la spiegazione testuale e spostata la regola in `src/global.css` sotto `@media (scripting: none)`. Dopo build e riavvio, i controlli restano visibili alle modifiche, al cambio di prodotto e al reset. Nessuna nuova funzionalità o modifica alla formula. Il ramo senza JavaScript va comunque verificato manualmente nel browser; il supporto della media query dipende dal browser.
+Già superati sul medesimo codice e non rieseguiti inutilmente: typecheck, lint, formattazione, build di produzione, **15/15 test locali** e **14/14 test HTTP**. Nessuna modifica applicativa in questa ripresa.
 
-Prova sul **bundle di produzione nel browser**, con `fill`/`selectOption` e attivazione DOM `element.click()` per radio e reset:
+## Errori di esecuzione e preparazione delle catture
 
-- L 200 sul tavolo iniziale: **512,52 €**, schema e riepilogo aggiornati, controlli ancora visibili; reset di questa modifica: **483,18 €**.
-- Libreria 96 × 32 × 180, frassino/opaca: **884,74 €**; descrizione dello schema coerente con tipo ed essenza.
-- Madia 160 × 42 × 78, noce/pigmentato: **1.300,41 €**; cambio tipologia conserva essenza/finitura.
-- Limiti delle nove dimensioni aggiornati correttamente: **18 estremi accettati e 18 valori adiacenti rifiutati**, con errori visibili e copia disabilitata.
-- La prima routine registra **70 asserzioni riuscite**, poi un timeout nell’attesa del ripristino dell’ultima misura; non è dichiarata passata integralmente. I successivi collegamenti hanno completato le verifiche native sotto, senza modificare il prodotto.
+Il difetto applicativo reale trovato nella 4A era lo stile dentro `noscript` che nascondeva i controlli dopo un aggiornamento Qwik. È corretto in `3eeead1`, con regola globale `@media (scripting: none)`; la CTA obsoleta di Materiali è corretta in `859c1b1`.
 
-### Verifiche native recuperate prima della fase esclusiva
+Distinti da quel difetto: viewport iniziale 0 × 0 di una nuova scheda; asserzione che leggeva limiti prima dell’aggiornamento Qwik; routine aggregate interrotte; timeout di singole catture dopo «fonts loaded». Questi esiti non sono dichiarati passati e non dimostrano un guasto di MCP. Le verifiche riprese usano comandi dedicati, attese per il testo aggiornato e preparazione esplicita della cattura:
 
-La nuova scheda dedicata, con viewport esplicitamente impostato, ha consentito **68/68 asserzioni native**: `check`, `fill`, `selectOption` e clic Playwright sul reset, senza `element.click()` in questa routine. Nove coppie di limiti, 18 estremi con prezzo esatto ricostruito indipendentemente, 18 adiacenti rifiutati, errori visibili, campo vuoto e decimale, copia disabilitata, reset completo di dimensioni e opzioni, controlli ancora visibili. Risultato `complete:true` e lista dei casi in `m4a-reconnection-results.json`; script locale `m4a-native-boundaries.js`.
+1. Controllare URL e `innerWidth/innerHeight` della scheda dedicata.
+2. Attendere `document.fonts.ready`; portare le immagini nel viewport e attenderne la decodifica.
+3. Posizionare lo scroll, attendere due `requestAnimationFrame`, poi richiedere lo screenshot con il comando MCP dedicato.
+4. Ispezionare il file salvato prima di contarlo come evidenza.
 
-In un’altra sequenza sono confermati ArrowUp da L 200 a 201 con prezzo 513,99 €, Tab da larghezza ad altezza e Shift+Tab di ritorno. A 390: Tab raggiunge lo skip link con outline 3 px, Invio porta il focus al main, Tab percorre marchio/menu, Invio apre il menu (`aria-expanded=true`), Tab e Invio seguono Lavorazioni. Non sono stati ripetuti nella successiva fase esclusiva. Resta **incompleto il percorso interamente da tastiera attraverso radio, select, misure, reset e copia**: la relativa sequenza è stata interrotta senza risultato conclusivo.
+Con questa preparazione sono state completate anche le catture integrali di Materiali, Configuratore, Contatti, Portfolio e 404. Non si deduce una causa unica per tutti i timeout precedenti dal successo delle richieste successive. Il servizio non è stato riavviato o riconfigurato.
 
-Una prima routine nativa aveva letto i limiti immediatamente dopo il cambio prodotto, prima della ripresa asincrona Qwik. L’asserzione fallita è conservata (`complete:false`, 8 asserzioni precedenti riuscite). La routine corretta attende i limiti e il prezzo attesi prima di verificare il passo successivo e completa 68 casi. Corretto il metodo di test, nessuna modifica applicativa per adattare il codice al test.
+## Confini ancora aperti
 
-Separatamente, **15/15 test locali** (11 modello, 4 componenti Qwik) verificano anche vuoti/decimali, reset completo, copia riuscita e fallback con clipboard simulata. **14/14 test HTTP** verificano SSR e metadati delle sei rotte, configurazione iniziale, 404, link/frammenti e immagini. Questi test non colmano automaticamente i residui browser.
+- **Browser con JavaScript disabilitato:** il tentativo per la sola scheda tramite `browserContext.newCDPSession` è stato rifiutato con `Target.attachToBrowserTarget: Not allowed`; non è arrivato al comando di disabilitazione. Non è una prova di browser senza JS né un guasto generale del tool. SSR senza esecuzione di script resta verificato dai 14 test HTTP; la verifica visuale specifica senza JS rimane manuale.
+- **Revoca reale del permesso clipboard:** non effettuata; confermati copia/incolla reali e fallback con rifiuto simulato, come distinti sopra.
+- Nessuna certificazione WCAG, prova con screen reader, Safari o dispositivo mobile fisico.
 
-## Limiti del connettore, ripresa e arresto esclusivo
+## Evidenze e riproduzione
 
-La prima navigazione browser è riuscita; non si è assunto che il blocco della milestone 3 fosse ancora presente. Inizialmente ArrowUp/Tab non producevano keydown e il clic Playwright restava in attesa. In seguito, su richiesta esplicita del proprietario, sono state inviate nuove richieste al server MCP per una scheda dedicata. Il contesto isolato è rifiutato con `Target.createBrowserContext: Not allowed`; nessun aggiramento. Una nuova scheda aveva viewport 0 × 0: impostarlo esplicitamente ha consentito il clic nativo e le verifiche recuperate sopra. Non è un difetto dell’applicazione. Sono state chiuse soltanto schede della demo create da questa sessione, senza riavviare o riconfigurare processi browser condivisi.
+Artefatti locali ignorati in `test-results/`:
 
-La cattura di Contatti a 390 aveva restituito timeout di screenshot dopo il caricamento dei font; una successiva richiesta MCP dedicata ha prodotto il PNG completo. L’ultima routine che doveva proseguire a 320 è stata interrotta dall’utente: il client non ha conservato un risultato, non esistono PNG a 320 e nessun passo di quella routine viene considerato completato.
+- `m4a-{home,lavorazioni,portfolio,materiali,configuratore,contatti}-{1440,768,390,320}.png`: 24 catture della matrice.
+- `m4a-404-320.png`, `m4a-copy-fallback-visible-390.png`; viewport preliminare aggiuntivo del portfolio.
+- `m4a-*-320-metrics.json`, `m4a-keyboard-product-focus.json`, `m4a-corrected-browser-results.json`.
+- `m4a-reconnection-results.json`: 68 casi nativi e risultati parziali precedenti, conservati senza cancellare gli errori.
+- `m4a-build.log`, `m4a-tests.log`, `m4a-npm-audit.json`, manifest SHA-256 e cattura del difetto iniziale.
 
-Nella successiva **fase esclusiva e sequenziale**, letti nuovamente worklog e deployment, il runtime già avviato da questa sessione risponde via HTTP 200 su `/configuratore/`, con 483,18 € nell’HTML. Eseguita una sola richiesta iniziale `browser_tabs({action:"list"})`: rimasta senza risposta, poi annullata lato client. Non è stato possibile verificare URL/viewport della scheda, quindi **nessuna nuova sequenza browser è stata iniziata**. Non effettuati retry, nuove schede, restart o riconfigurazioni dopo questo blocco, seguendo l’ultima istruzione. È un blocco dell’accesso MCP, non evidenza di errore della pagina HTTP; la causa interna del servizio non è accertata.
+Gli artefatti ignorati non vengono trasferiti dal push. I risultati e i confini sono conservati qui e nel [WORKLOG](WORKLOG.md). Da un checkout nuovo: `npm ci`, `npm run build`, `npm run serve -- --port 8790`. Verificare HTTP prima del browser. Non ripetere casi già passati salvo modifiche o regressioni; per la procedura completa vedere [DEPLOYMENT](DEPLOYMENT.md).
 
-Arrestato il solo Wrangler di proprietà della sessione. Nessun’altra chiamata Playwright rimane attiva nel client di questa sessione; non è possibile confermare la chiusura dell’ultima scheda o lo stato di un’operazione rimasta lato server senza una risposta MCP. Non viene dichiarato riavviato o ripristinato il servizio condiviso. Restano: tutte le rotte a 320, 404 visuale, percorso completo da tastiera nel configuratore, clipboard reale, caricamento lazy naturale, JavaScript disabilitato, screen reader e Safari. Le prove storiche M1/M2 non sostituiscono questi casi.
+Per i soli residui, in una sessione locale controllata dal proprietario: disabilitare JavaScript per la pagina e ricaricare direttamente home/configuratore, verificando contenuti SSR, nota noscript e controlli nascosti nei browser con supporto `scripting: none`; poi ripristinare JavaScript. Revocare il solo permesso clipboard del sito e provare la copia, controllare il fallback readonly, quindi ripristinare il permesso precedente. Registrare browser/versione, atteso/osservato ed evidenze, senza confondere questi casi con le simulazioni già concluse.
 
-## Evidenze locali
-
-Sotto `test-results/`, esclusa da Git:
-
-- `m4a-{home,lavorazioni,portfolio,materiali,configuratore,contatti}-{1440,768}.png`.
-- `m4a-{home,lavorazioni,portfolio,materiali,configuratore,contatti}-390.png`.
-- `m4a-before-hidden-controls.png`: stato difettoso prima della correzione.
-- `m4a-browser-results.json`: risultati del connettore, incluse le interruzioni; nessuna rimozione dei fallimenti.
-- `m4a-reconnection-results.json`: 68 asserzioni native riuscite, traccia tastiera/menu e risultati parziali conservati.
-- `m4a-native-boundaries.js`: routine locale dei 68 casi; `m4a-exclusive-preflight.json`: HTTP riuscito, unica richiesta MCP senza risposta e pulizia della fase esclusiva.
-- `m4a-build.log`, `m4a-tests.log`, `m4a-npm-audit.json`.
-- `m4a-evidence-manifest.json`: nomi, dimensioni e SHA-256 dei 28 artefatti locali, per confrontarli senza modificarli.
-
-PNG controllati per dimensioni e terminazione `IEND`, poi rivisti; non sono screenshot della pagina di sviluppo. Gli artefatti ignorati non vengono trasferiti dal push: il report versionato conserva metodo ed esiti e la procedura seguente permette nuove catture. Non riutilizzare catture M1/M2 come prova del configuratore corrente.
-
-## Procedura manuale residua, indipendente dagli strumenti agente
-
-Per riprendere **solo ciò che manca**, eseguire il punto 2 a 320 e sulla 404, controllare lo scroll naturale; completare il punto 4 con radio/select/misure esclusivamente da tastiera, il punto 6 da tastiera con clipboard reale e il punto 7. Skip link/menu, vincoli, vuoti/decimali e reset con clic sono già provati: i relativi passi sotto rimangono una procedura di regressione e non vanno ripetuti senza nuove modifiche o un motivo concreto.
-
-1. Dalla radice della repository, con Node 22.12+ della linea 22 (verificato 22.16.0) o Node 24: `npm ci`, `npm run build`, poi `npm run serve -- --port 8790`. Non ricostruire con Wrangler già attivo. Non servono account, login o credenziali. Aprire `http://127.0.0.1:8790/` in un browser locale.
-2. Aprire gli strumenti sviluppatore e la modalità responsive. Impostare, uno alla volta, 1440 × 1000, 768 × 1024, 390 × 844 e 320 × 800, zoom 100%. Visitare direttamente tutte le sei rotte, poi una rotta inesistente. Scorrere naturalmente dall’inizio al footer; attendere le foto. Verificare assenza di scroll orizzontale, testo troncato, sovrapposizioni, immagini vuote e CTA fuori schermo. Salvare schermate desktop/mobile con data, rotta e larghezza. **Per completare questo collaudo riprendere solo i casi mancanti:** tutte le rotte a 320, 404 visuale e comportamento lazy, senza ripetere la matrice già acquisita.
-3. Ricaricare senza usare il mouse. Tab deve mostrare «Salta al contenuto»; Invio deve portare il focus al main. Tornare all’header, usare Tab/Shift+Tab e Invio/Spazio sul menu mobile. Verificare che i link compaiano nell’ordine di tabulazione, che il focus sia visibile e che nessun controllo intrappoli la tastiera. Seguire un link interno e verificare destinazione e indicazione della rotta attiva. Aprire una FAQ con Invio/Spazio. Annotare browser/versione e ogni punto in cui il focus scompare.
-4. Aprire direttamente `/configuratore/`. Con Tab raggiungere la radio selezionata; le frecce devono cambiare tipologia e misure. Provare essenza e finitura nei select con tastiera; raggiungere L/H/P. Digitare valori con selezione completa e sostituzione del contenuto; ArrowUp/ArrowDown devono seguire lo step. Verificare L 180 → 200 e **483,18 → 512,52 €**, mantenendo visibili tutti i controlli. Ripetere dopo navigazione da un’altra pagina e dopo più modifiche consecutive: è il caso di regressione corretto.
-5. Per ciascuna tipologia provare ogni minimo/massimo e un valore appena esterno, usando [la tabella dei limiti](CONFIGURATOR.md). Svuotare un campo e inserire un decimale: errore associato, stima/schema sospesi, copia disabilitata. Correggere il valore: recupero. Provare gli esempi libreria **884,74 €** e madia **1.300,41 €** con le relative opzioni documentate.
-6. Modificare tutte le opzioni e produrre un errore; attivare «Ripristina configurazione» da tastiera: tavolo, rovere, olio naturale, L/H/P 180/75/90, **483,18 €**, errori e conferme cancellati. Copiare il riepilogo e incollarlo in un editor locale: scelte, dimensioni, fattori, totale, versione e disclaimer. Negare il permesso clipboard nelle impostazioni locali del sito, riprovare e verificare la copia manuale readonly. Nessun invio a servizi esterni.
-7. Disabilitare JavaScript dagli strumenti sviluppatore e ricaricare direttamente home e configuratore: contenuti e metadati SSR leggibili, spiegazione `noscript`, controlli nascosti nei browser con supporto `scripting: none`. Riabilitare JavaScript e ripristinare i permessi locali al termine. Questo passaggio non sostituisce il controllo HTTP già automatizzato.
-8. Registrare ogni caso come PASS, FAIL o NON ESEGUITO, con passi, atteso/osservato e screenshot. Se un test fallisce, riprodurlo prima di cambiare codice; rieseguire i controlli tecnici dopo una correzione. Arrestare soltanto Wrangler di questa demo con `x` o `Ctrl+C`. Nessuna operazione Cloudflare remota è parte del collaudo.
+Pulizia conclusa: chiusa soltanto la scheda Radice creata per il collaudo e arrestato soltanto Wrangler della sessione. La scheda di connessione dell’estensione e i processi browser condivisi sono rimasti invariati. Nessuna ulteriore chiamata Playwright da questa sessione dopo la chiusura.

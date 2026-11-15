@@ -4,7 +4,7 @@
 
 Milestone 3, nessun deployment, login o provisioning eseguito. Nessun account ID, progetto remoto, dominio, binding, secret o configurazione Access è necessario per riprodurre la verifica locale. Il nome in `wrangler.jsonc` è un identificatore locale hardcoded, non la prova di un progetto Cloudflare esistente. `send_metrics: false` disabilita la telemetria Wrangler.
 
-La milestone 4A aggiunge un collaudo locale parziale e due correzioni circoscritte, senza cambiare hosting o configurazione: [copertura, evidenze e procedura manuale](QA_CHECKLIST.md). Non considerare la consegna una dichiarazione di pronta pubblicazione. Contatti a 390, vincoli/errori/reset nativi e tastiera di skip link/menu sono stati recuperati; restano tutte le rotte a 320, il percorso completo da tastiera nel configuratore e i residui elencati nel report. Nella fase esclusiva il sito risponde HTTP 200 ma MCP non restituisce l’elenco schede: nessun nuovo test browser iniziato o retry. Audit dipendenze analizzato in [DEPENDENCY_AUDIT](DEPENDENCY_AUDIT.md).
+La milestone 4A aggiunge il collaudo sulle quattro larghezze, percorso completo da tastiera, copia/incolla reali e due correzioni circoscritte, senza cambiare hosting o configurazione: [copertura, evidenze e procedura manuale](QA_CHECKLIST.md). La precedente attribuzione di un guasto MCP è ritirata: non era dimostrata dai mancati esiti delle richieste. Rimangono la prova visuale con JavaScript disabilitato e la revoca reale del permesso clipboard; il fallback con rifiuto API simulato è invece verificato. Audit dipendenze analizzato in [DEPENDENCY_AUDIT](DEPENDENCY_AUDIT.md). Nessuna dichiarazione di pronta pubblicazione o deployment.
 
 ## Riprodurre da un checkout pulito
 
