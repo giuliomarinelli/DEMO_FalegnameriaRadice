@@ -234,3 +234,76 @@ Le foto lazy vengono ispezionate dopo il caricamento/decodifica, non contando co
 Commit atomici sul solo `feature/mvp-foundation`: **`689443b` — `feat: create material identity and complete Radice content`** per implementazione, test e fonti asset; **`docs: document Radice brand direction and milestone two validation`** per direzione di marca, documenti aggiornati e questo registro. Per ciascuno usato `git -c commit.gpgsign=false commit -F <file-messaggio-locale>`. File dei messaggi esclusi da Git in `test-results`. Push autorizzato: `git push origin feature/mvp-foundation`. Identificativo del commit documentale recuperabile con `git log -2 --oneline`.
 
 Controlli finali: `git diff --check`, `git status --short`, confronto `HEAD...origin/feature/mvp-foundation` e diff nullo per `AGENTS.md` e `docs/MVP.md`. Nessuna modifica permanente alla configurazione Git. La milestone si ferma qui: il preventivo simulato e il riepilogo sono riservati alla successiva istruzione.
+
+## 2026-11-15 — Milestone 3, configuratore di arredi
+
+### Perimetro e situazione iniziale
+
+Richiesta esplicita: rendere interattiva la presentazione esistente, proseguendo su `feature/mvp-foundation`, senza nuovo branch. Letti integralmente AGENTS, MVP e documenti della foundation/identità. Working tree iniziale pulito, HEAD `7782fb5`; dopo `git fetch origin`, confronto con `origin/feature/mvp-foundation` **0/0**. Nessun subagente, worktree, merge, rebase o modifica ad altri branch. AGENTS e MVP preservati.
+
+### Implementazione e motivazioni
+
+- Tre tipologie: tavolo, libreria, madia, con intervalli dimensionali specifici. Tre essenze e tre finiture riusano il catalogo della milestone 2. Il cambio di tipologia conserva essenza/finitura e ripristina le sue misure iniziali; il reset completo torna all’esempio tavolo/rovere/olio naturale.
+- Modello puro in `src/lib/configurator.ts`: bozza testuale, validazione delle opzioni e delle misure, superficie equivalente, tariffe inventate e somma in centesimi. Le misure non valide non vengono corrette silenziosamente: prezzo, schema e copia vengono sospesi. Anche l’ingresso pubblico del calcolo ricontrolla le dimensioni.
+- Formula `radice-demo-v1` spiegata nell’interfaccia, nel riepilogo copiato e in `docs/CONFIGURATOR.md`. Esempio iniziale: 1,86 m² equivalenti × 145 €/m² = 269,70 € di materiale; 180,00 € lavorazione; 33,48 € finitura; totale **483,18 €**. Cifre inventate, nessun valore commerciale; niente imposte, trasporto, montaggio o accessori nel modello.
+- `FurnitureConfigurator` usa `useStore`, `useComputed$`, `useSignal` e gestori QRL. Stato locale, nessun loader/action/API business, storage o dipendenza aggiunta. Input nativi con label, fieldset/legend, aiuti e messaggi d’errore associati; regioni di stato e focus visibile.
+- `ConfigurationDrawing` rende uno schema originale SVG dalle dimensioni validate, con forma, colore e finitura variabili. Nessun asset nuovo di terzi, fotografia invariata. Layout carta/betulla, accenti rame e noce; una colonna sotto il desktop, riepilogo affiancato e sticky sul desktop.
+- Clipboard invocata soltanto da evento utente. Conferma dopo successo, nessuna conferma per un testo ormai cambiato; reset invalida richieste pendenti. API assente o permesso negato: testo readonly selezionabile per copia manuale. Nessun invio alla bottega.
+- SSR include esempio iniziale completo, fattori, formula e metadati. `noscript` spiega il requisito JavaScript per le modifiche e nasconde i controlli inerti. Home e FAQ Contatti aggiornate per non descrivere il configuratore come futuro.
+- Adapter Pages, entrypoint, routing, hosting, dipendenze e lockfile invariati. Nessun install o aggiornamento richiesto: dipendenze già presenti dalla foundation. Per un checkout nuovo rimane `npm ci`.
+
+### Test e riproduzione
+
+`test.unit` compila i file necessari con `tsconfig.tests.json` in `test-results/configurator`, poi l’optimizer Qwik ufficiale prepara i due componenti reali per `@builder.io/qwik/testing`. Condizione Node `development`, eventi QRL eseguiti nel DOM di test. Il preparatore non modifica i sorgenti o la build di produzione e non richiede nuove librerie. `npm test` esegue prima questi test, poi la suite HTTP.
+
+```powershell
+npm run fmt
+npm run typecheck
+npm run lint
+npm run test.unit
+npm run build
+npm run serve -- --port 8790
+```
+
+Con build completata e runtime attivo, nel secondo terminale:
+
+```powershell
+$env:TEST_BASE_URL = 'http://127.0.0.1:8790'
+npm test
+Remove-Item Env:TEST_BASE_URL
+npm run fmt.check
+git diff --check
+git diff --exit-code -- AGENTS.md docs/MVP.md package-lock.json adapters wrangler.jsonc
+```
+
+| Verifica effettivamente eseguita | Risultato |
+| --- | --- |
+| TypeScript strict | `npm run typecheck`, codice 0 |
+| ESLint | `npm run lint`, codice 0, zero warning ammessi |
+| Formattazione | `npm run fmt.check`, codice 0 |
+| Modello puro | **11/11**: default, estremi/valori adiacenti di ogni misura, input malformati, ID sconosciuti/prototipo, 27 combinazioni, esempi indipendenti, arrotondamento, monotonia e riepilogo |
+| Componenti Qwik | **4/4**: reattività misure/materiale/finitura, schema e fattori; cambio prodotto e limiti; errori, recupero e reset; copia riuscita, conferma obsoleta rimossa e fallback su permesso negato |
+| Build produzione | `npm run build`, codice 0: client e server SSR, typecheck e lint |
+| HTTP su produzione Pages locale | **14/14**, nessuno saltato, dopo riavvio del runtime sulla build finale |
+| SSR senza JS client | Richieste dirette a tutte le sei rotte: testo significativo, H1, titolo, descrizione, navigazione; `/configuratore/` contiene 483,18 €, opzioni, controlli, fattori e disclaimer già nell’HTML |
+| Artefatti e regressioni HTTP | `_worker.js`, piano rotte, asset client/server, nessuna pagina pubblica SSG; 404, link/frammenti e fotografie locali corretti |
+| File protetti | Diff nullo per AGENTS, MVP, adapter, Wrangler e lockfile |
+
+Log locali non versionati: `test-results/milestone-3-build.log` e `test-results/milestone-3-tests.log`. Wrangler **4.162.0**, solo `127.0.0.1:8790`; nessun login, account, provisioning o comando remoto. Il `404.html` tecnico prodotto dall’adapter è atteso: le sei pagine pubbliche restano SSR.
+
+### Correzioni durante lo sviluppo e limiti
+
+- Il primo valore atteso del test della madia conteneva un errore aritmetico nella superficie: ricostruito a mano come 44.952 cm² e totale 1.300,41 €. Corretto il test, senza modificare la formula per adattarla a un valore errato.
+- Il DOM ufficiale Qwik non è un browser completo: i risultati mancanti di query possono essere `undefined`, le NodeList non sono iterabili e il valore iniziale del select si verifica tramite l’opzione `selected`. Adattate le asserzioni alle API effettive; i sorgenti UI restano quelli reali compilati con optimizer. Eseguire solo JavaScript emesso da TypeScript non basta per provare gli eventi QRL.
+- Eliminato un warning Qwik sul contenuto di `style` usando `dangerouslySetInnerHTML` esclusivamente con CSS costante dell’applicazione nel `noscript`, senza dati utente.
+- Ricostruire con Wrangler già attivo ha prodotto un errore transitorio del watcher durante la pulizia di `dist/_worker.js`, poi recuperato. Arrestato e riavviato il solo runtime della demo sulla build conclusa prima della suite finale; documentata la sequenza sicura nel deployment.
+- Due tentativi del connettore browser (navigazione e nuova scheda) sono rimasti senza risposta e sono stati interrotti. Nessun reset del browser condiviso, input nativo sostitutivo o arresto di altri servizi. **Nessuna nuova verifica visuale responsive, tastiera fisica, clipboard reale o ripresa Qwik nel browser di produzione completata in questa milestone.** I test DOM verificano la reattività e gli eventi dei componenti, non questi aspetti. Matrice manuale con valori attesi in DEPLOYMENT; limite aperto dichiarato, non contato come test superato.
+- Nessuna nuova verifica Safari o audit completo WCAG. Nessun audit dipendenze rieseguito: le segnalazioni della foundation non vengono dichiarate risolte. Nessun deployment o modifica Cloudflare, DNS, Access, secrets, CI o billing.
+
+### Documenti, consegna Git e arresto della milestone
+
+Creato CONFIGURATOR per formula, assunzioni, architettura e test; aggiornati README, ARCHITECTURE, BRAND_DIRECTION, DEPLOYMENT, CASE_STUDY e questo registro. ASSETS invariato: nessuna risorsa esterna aggiunta. Rollback tramite commit inversi sul branch, seguito da build e test; baseline precedente `7782fb5`, nessun reset o force push.
+
+Commit implementazione e test: **`a69fc1e` — `feat: add reactive furniture configurator with transparent demo pricing`**. Commit documentale separato: `docs: document configurator model and milestone three validation`. Usato per ciascuno `git -c commit.gpgsign=false commit -F <file-messaggio-locale>`; messaggi locali in `test-results`, nessuna modifica permanente Git. Push previsto esclusivamente con `git push origin feature/mvp-foundation`; verifica di consegna tramite `git status --short`, `git log -2 --oneline` e `git rev-list --left-right --count HEAD...origin/feature/mvp-foundation` (atteso 0/0 dopo push). Identificativo documentale recuperabile dal log senza autoriferimenti nel file.
+
+La milestone 3 termina con questa consegna. La milestone 4 non viene avviata; rimangono espliciti i controlli browser descritti sopra. Arrestare con `x` o `Ctrl+C` soltanto Wrangler avviato per questa verifica.

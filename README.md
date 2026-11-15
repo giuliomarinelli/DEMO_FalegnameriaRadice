@@ -2,7 +2,7 @@
 
 Sito dimostrativo per una falegnameria artigiana **fittizia**. Azienda, informazioni e operazioni sono simulate; nessun ordine, messaggio o preventivo commerciale.
 
-Stato: **milestone 2**, identità noce/betulla/rame/salvia e contenuti completi delle sei pagine, sulle fondamenta Qwik City SSR. Tre concept originali con disegni e misure, metodo di bottega, campionario di essenze e finiture, FAQ e crediti fotografici. Il configuratore ha un’anteprima visiva di sola lettura ed è **non ancora disponibile**: niente selezioni, calcoli, prezzi o invii. La logica resta riservata alla milestone 3.
+Stato: **milestone 3**, configuratore interattivo sulle fondamenta Qwik City SSR e sull’identità noce/betulla/rame/salvia. Tavolo, libreria e madia con tre essenze, tre finiture, misure vincolate, disegno proporzionale e stima simulata aggiornata con dettaglio dei fattori. Reset e riepilogo copiabile, con alternativa manuale. La formula è deterministica e documentata; nessun dato viene salvato o inviato.
 
 ## Avvio locale
 
@@ -21,6 +21,7 @@ Aprire l’URL locale mostrato da Vite (normalmente `http://127.0.0.1:5173`). Vi
 npm run typecheck
 npm run lint
 npm run fmt.check
+npm run test.unit
 npm run build
 npm run serve
 ```
@@ -31,7 +32,7 @@ Lasciare `serve` attivo; in un secondo terminale nella repository:
 npm test
 ```
 
-Il test richiede **prima** la build e il runtime locale Pages su `http://127.0.0.1:8788`. Verifica artefatti, SSR delle sei pagine, metadati, collegamenti di navigazione, 404 e asset. Non avvia servizi remoti. `Ctrl+C` arresta i processi locali. Per un’altra porta usare `npm run serve -- --port 8790` e impostare `$env:TEST_BASE_URL = 'http://127.0.0.1:8790'` nel terminale dei test.
+`npm run test.unit` esegue 11 test del modello e 4 dei componenti Qwik senza server. `npm test` li esegue insieme ai 14 test HTTP, per i quali servono **prima** build e runtime locale Pages su `http://127.0.0.1:8788`. Verifica artefatti, SSR delle sei pagine, configurazione iniziale, metadati, link, 404 e asset. Non avvia servizi remoti. `Ctrl+C` arresta i processi locali. Per un’altra porta usare `npm run serve -- --port 8790` e impostare `$env:TEST_BASE_URL = 'http://127.0.0.1:8790'` nel terminale dei test.
 
 ## Stack
 
@@ -45,7 +46,7 @@ Qwik e Qwik City **1.20.4**, Vite **7.3.7**, TypeScript **5.4.5** in modalità s
 | `/lavorazioni/` | Famiglie di arredo, metodo, giunzioni, bordi e finitura |
 | `/portfolio/` | Convivio, Intervallo e Sponda: disegni, dimensioni e dettagli |
 | `/materiali/` | Tre essenze, tre finiture, texture e note sulla cura |
-| `/configuratore/` | Anteprima di tipologie, essenze, misure e finiture, senza controlli |
+| `/configuratore/` | Scelte, misure, stima simulata spiegata, schema, reset e copia |
 | `/contatti/` | Domande di progetto, trasparenza, FAQ e crediti, senza invio |
 
 Le pagine includono titolo, descrizione e Open Graph nel primo HTML. `noindex, nofollow` e `robots.txt` proteggono la natura dimostrativa dall’indicizzazione, senza sostituire il futuro controllo di accesso. Il canonical è omesso finché non si configura un dominio pubblico autorizzato: vedere [deployment](docs/DEPLOYMENT.md).
@@ -58,6 +59,7 @@ Le pagine includono titolo, descrizione e Open Graph nel primo HTML. `noindex, n
 - [Case study e limiti](docs/CASE_STUDY.md)
 - [Fonti e licenze degli asset](docs/ASSETS.md)
 - [Direzione di marca e sistema visivo](docs/BRAND_DIRECTION.md)
+- [Configuratore: formula, assunzioni e verifiche](docs/CONFIGURATOR.md)
 - [Specifica MVP invariata](docs/MVP.md)
 
 Non è stato effettuato alcun deployment. I branch `preview` e `master`, l’accesso Cloudflare e le promozioni restano riservati al proprietario. Segnalazioni note delle dipendenze e limiti di verifica sono nel worklog.

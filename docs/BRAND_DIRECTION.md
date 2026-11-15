@@ -42,9 +42,11 @@ Alternanza tra carta e noce scuro, fotografie ampie, sottili separatori, numeraz
 
 Convivio, Intervallo e Sponda sono concept originali: tavolo, libreria e madia. I disegni SVG sono schemi con quote illustrative, non esecutivi in scala. Le schede descrivono dimensioni L × P × H, essenza, finitura, giunzione e contesto d’uso. La foto di arredo è separata dai disegni e dichiarata come atmosfera.
 
-## Futuro configuratore
+## Configuratore — evoluzione nella milestone 3
 
-Quattro aspetti: tipologia, essenza, misure, finitura. Anteprima editoriale di sola lettura: nessuna scelta attiva, selezione apparente, campo disabilitato, formula, prezzo, copia del riepilogo o richiesta. I campioni rimandano ai materiali, le tipologie alle schede del portfolio. La milestone 3 rimane separata.
+L’anteprima della milestone 2 diventa un taccuino interattivo: tipologia, essenza/finitura e misure sono ordinate in tre passaggi. Radio e campi nativi mantengono il carattere concreto della bottega, con bordi sottili, carta e accenti rame scuro. Il riepilogo su betulla affianca uno schema proporzionale originale ai fattori della stima, senza linguaggio da carrello o acquisto.
+
+Il disegno cambia forma, proporzioni, tono dell’essenza e opacità della finitura; resta dichiarato come schema, non fotografia o esecutivo. L’importo è sempre una stima simulata e la formula è consultabile. Gli errori spiegano quali misure correggere, senza sostituire silenziosamente i valori. Reset e copia conservano il tono di un quaderno di appunti. Il sistema visivo, le fotografie e le loro attribuzioni restano invariati.
 
 ## Continuità tecnica
 

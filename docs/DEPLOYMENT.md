@@ -2,7 +2,7 @@
 
 ## Stato
 
-Milestone 2, nessun deployment, login o provisioning eseguito. Nessun account ID, progetto remoto, dominio, binding, secret o configurazione Access è necessario per riprodurre la verifica locale. Il nome in `wrangler.jsonc` è un identificatore locale hardcoded, non la prova di un progetto Cloudflare esistente. `send_metrics: false` disabilita la telemetria Wrangler.
+Milestone 3, nessun deployment, login o provisioning eseguito. Nessun account ID, progetto remoto, dominio, binding, secret o configurazione Access è necessario per riprodurre la verifica locale. Il nome in `wrangler.jsonc` è un identificatore locale hardcoded, non la prova di un progetto Cloudflare esistente. `send_metrics: false` disabilita la telemetria Wrangler.
 
 ## Riprodurre da un checkout pulito
 
@@ -13,6 +13,7 @@ npm ci
 npm run typecheck
 npm run lint
 npm run fmt.check
+npm run test.unit
 npm run build
 npm run serve
 ```
@@ -29,7 +30,19 @@ curl.exe -i http://127.0.0.1:8788/materiali/
 
 Le risposte devono avere HTTP 200, `<title>`, descrizione e contenuto principale già nel corpo HTML. `npm test` controlla tutte e sei le rotte direttamente con `fetch` Node, senza eseguire script. Verifica anche 404, asset, collegamenti e assenza di pagine pubbliche prerenderizzate. Un browser aperto su `vite dev` non è una prova sostitutiva.
 
-La suite della milestone 2 include le schede dei tre manufatti, le opzioni di essenze/finiture dell’anteprima, l’assenza di controlli di preventivazione, i link editoriali con frammenti e tutte le varianti fotografiche locali. Provare anche `/portfolio/#intervallo`, `/materiali/#noce`, `/lavorazioni/#metodo` e `/contatti/#fotografie`. Nessuna nuova dipendenza, modifica alla configurazione Wrangler o comando remoto è richiesto per la nuova identità. Per tornare alla foundation, i due commit precedenti della milestone 1 sono `6ba79e7` e `06e3ad3`: usare eventuali revert delle modifiche successive, senza reset, merge o force push.
+La suite corrente esegue 15 test locali di modello/componenti e 14 HTTP. Include schede, materiali, link editoriali, immagini e configurazione iniziale SSR da 483,18 €, fattori e controlli. Provare anche `/portfolio/#intervallo`, `/materiali/#noce`, `/lavorazioni/#metodo` e `/contatti/#fotografie`. Nessuna nuova dipendenza, modifica alla configurazione Wrangler o comando remoto. Formula e test del configuratore in [CONFIGURATOR](CONFIGURATOR.md). Per tornare alla foundation, i commit della milestone 1 sono `6ba79e7` e `06e3ad3`; la baseline prima del configuratore è `7782fb5`: usare eventuali revert delle modifiche successive, senza reset, merge o force push.
+
+Arrestare il runtime prima di ricostruire e riavviarlo dopo: la pulizia di `dist` durante la build può causare un errore transitorio del watcher che conserva il vecchio Worker. Una prova di accettazione deve usare il nuovo runtime sulla build completata.
+
+### Matrice manuale del configuratore
+
+Questa è una procedura riproducibile, non la dichiarazione che ogni prova sia stata eseguita. Esiti effettivi nel worklog. Usare la build su Wrangler, aprire direttamente `/configuratore/` a 320, 390, 768 e 1440 px. Controllare assenza di overflow, leggibilità, ordine delle sezioni e disegno. Con Tab/Shift+Tab, frecce nelle radio/select e Invio/Spazio sui pulsanti, verificare focus e assenza di trappole.
+
+1. Il tavolo iniziale mostra rovere, olio naturale, L 180 / H 75 / P 90 e **483,18 €**; portare L a 200: **512,52 €**, quote e schema cambiano.
+2. Selezionare noce e olio pigmentato, poi libreria: essenza/finitura restano; L/H/P diventano 96/180/32, i limiti cambiano. Ripetere per la madia e confrontare con la tabella in CONFIGURATOR.
+3. Svuotare una misura, usare un decimale e un valore oltre ogni estremo: errore associato, stima e disegno sospesi, copia disabilitata. Correggere: recupero immediato. Verificare anche gli estremi ammessi di tutti i prodotti.
+4. Copiare il riepilogo e incollarlo in un editor locale: dati correnti, fattori, totale, versione e disclaimer. Rifiutando il permesso clipboard, deve comparire il testo readonly selezionabile, senza falsa conferma. Non incollare in servizi esterni.
+5. Il reset torna al tavolo iniziale, elimina errori e conferme di copia. Ricaricare: nessuna persistenza. Disabilitare JavaScript e richiedere direttamente la rotta: contenuti/metadati e stima iniziale leggibili; spiegazione `noscript`, controlli nascosti.
 
 Per un controllo manuale a 390 px: ricaricare la homepage, usare Tab per raggiungere «Salta al contenuto», verificarne il focus visibile e premere Invio; il focus deve arrivare al contenuto principale. Tornare all’header, raggiungere «Menu +» con Tab e aprirlo con Invio/Spazio; i collegamenti devono entrare nell’ordine Tab. Raggiungere «Lavorazioni» e premere Invio; verificare destinazione e indicazione della rotta attiva. Chiudere e riaprire il menu, ripetere a 320 px e controllare il footer. Con JavaScript disabilitato verificare contenuti SSR e collegamenti nel footer; nei browser con supporto `scripting: none`, la navigazione mobile rimane espansa. Lo stato delle prove effettive e i limiti del connettore sono nel worklog.
 

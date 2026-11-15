@@ -29,6 +29,16 @@ Il futuro configuratore è valorizzato attraverso tipologie, campioni e signific
 
 Direzione completa in [BRAND_DIRECTION](BRAND_DIRECTION.md), fonti in [ASSETS](ASSETS.md), risultati e limiti di verifica nel worklog.
 
+## Milestone 3 — dal quaderno alla simulazione
+
+Il configuratore permette di esplorare tavolo, libreria e madia senza suggerire un acquisto. Misure vincolate, tre essenze e tre finiture aggiornano un riepilogo e uno schema proporzionale. La cifra è ricostruibile: superficie equivalente, tariffa del materiale, quota di lavorazione e finitura; ogni voce viene arrotondata al centesimo prima della somma. Il tavolo iniziale produce 483,18 €, una cifra inventata con disclaimer esplicito.
+
+Il modello puro è separato dai componenti Qwik. Una bozza testuale conserva anche campi vuoti e valori errati; il risultato derivato sospende la stima finché tutti i valori sono validi. Nessun clamp nascosto. Il cambio di tipologia conserva essenza/finitura ma ripristina misure coerenti; il reset riparte dall’esempio iniziale. La copia ha un’alternativa manuale quando il browser non concede la clipboard.
+
+SSR restituisce già simulazione iniziale, formula e metadati; le modifiche usano stato locale Qwik, senza backend, persistenza o integrazioni. L’identità materica e i contenuti editoriali restano integri. Formula e assunzioni sono in [CONFIGURATOR](CONFIGURATOR.md).
+
+Evidenza: 11 test del modello, 4 dei componenti Qwik con DOM di test ufficiale e 14 HTTP su produzione Pages locale, oltre a typecheck, lint e build. I test dei componenti simulano eventi e clipboard; non provano layout, tastiera fisica o ripresa Qwik nel browser di produzione. Il connettore browser non ha risposto in questa sessione: la matrice manuale è documentata e resta un limite di accettazione esplicito.
+
 ## Passi futuri separati
 
-La milestone 3 implementerà scelte vincolate, formula trasparente, prezzo simulato e riepilogo del configuratore; la 4 amplierà audit, documentazione e preparazione al deploy. Non sono state avviate da questa consegna.
+La milestone 4 amplierà audit, accessibilità e preparazione al deploy. Non viene avviata da questa consegna; nessuna pubblicazione è stata effettuata.
