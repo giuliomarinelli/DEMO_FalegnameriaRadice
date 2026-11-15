@@ -2,7 +2,7 @@
 
 Sito dimostrativo per una falegnameria artigiana **fittizia**. Azienda, informazioni e operazioni sono simulate; nessun ordine, messaggio o preventivo commerciale.
 
-Prima milestone: fondamenta Qwik City SSR, identità visiva e struttura iniziale delle sei pagine. Il configuratore è soltanto presentato e **non è disponibile**. Le pagine interne sono introduzioni: cataloghi e schede estese appartengono alla milestone 2, il configuratore alla 3.
+Stato: **milestone 2**, identità noce/betulla/rame/salvia e contenuti completi delle sei pagine, sulle fondamenta Qwik City SSR. Tre concept originali con disegni e misure, metodo di bottega, campionario di essenze e finiture, FAQ e crediti fotografici. Il configuratore ha un’anteprima visiva di sola lettura ed è **non ancora disponibile**: niente selezioni, calcoli, prezzi o invii. La logica resta riservata alla milestone 3.
 
 ## Avvio locale
 
@@ -39,14 +39,14 @@ Qwik e Qwik City **1.20.4**, Vite **7.3.7**, TypeScript **5.4.5** in modalità s
 
 ## Rotte
 
-| Percorso | Contenuto iniziale |
+| Percorso | Contenuto |
 | --- | --- |
-| `/` | Homepage, direzione della bottega, materiali e inviti all’esplorazione |
-| `/lavorazioni/` | Introduzione a tavoli, librerie e piccoli arredi |
-| `/portfolio/` | Taccuino fotografico di ispirazione, senza attribuzioni di lavori reali |
-| `/materiali/` | Prime note su tre essenze e campioni grafici |
-| `/configuratore/` | Presentazione esplicita della funzione futura, nessun controllo o prezzo |
-| `/contatti/` | Trasparenza sulla demo, nessun recapito o modulo reale |
+| `/` | Atelier, fotografia immersiva, tre studi di arredo e materiali |
+| `/lavorazioni/` | Famiglie di arredo, metodo, giunzioni, bordi e finitura |
+| `/portfolio/` | Convivio, Intervallo e Sponda: disegni, dimensioni e dettagli |
+| `/materiali/` | Tre essenze, tre finiture, texture e note sulla cura |
+| `/configuratore/` | Anteprima di tipologie, essenze, misure e finiture, senza controlli |
+| `/contatti/` | Domande di progetto, trasparenza, FAQ e crediti, senza invio |
 
 Le pagine includono titolo, descrizione e Open Graph nel primo HTML. `noindex, nofollow` e `robots.txt` proteggono la natura dimostrativa dall’indicizzazione, senza sostituire il futuro controllo di accesso. Il canonical è omesso finché non si configura un dominio pubblico autorizzato: vedere [deployment](docs/DEPLOYMENT.md).
 
@@ -57,6 +57,7 @@ Le pagine includono titolo, descrizione e Open Graph nel primo HTML. `noindex, n
 - [Worklog ed esiti effettivi](docs/WORKLOG.md)
 - [Case study e limiti](docs/CASE_STUDY.md)
 - [Fonti e licenze degli asset](docs/ASSETS.md)
+- [Direzione di marca e sistema visivo](docs/BRAND_DIRECTION.md)
 - [Specifica MVP invariata](docs/MVP.md)
 
 Non è stato effettuato alcun deployment. I branch `preview` e `master`, l’accesso Cloudflare e le promozioni restano riservati al proprietario. Segnalazioni note delle dipendenze e limiti di verifica sono nel worklog.

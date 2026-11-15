@@ -2,7 +2,7 @@
 
 ## Stato
 
-Milestone 1, nessun deployment, login o provisioning eseguito. Nessun account ID, progetto remoto, dominio, binding, secret o configurazione Access è necessario per riprodurre la verifica locale. Il nome in `wrangler.jsonc` è un identificatore locale hardcoded, non la prova di un progetto Cloudflare esistente. `send_metrics: false` disabilita la telemetria Wrangler.
+Milestone 2, nessun deployment, login o provisioning eseguito. Nessun account ID, progetto remoto, dominio, binding, secret o configurazione Access è necessario per riprodurre la verifica locale. Il nome in `wrangler.jsonc` è un identificatore locale hardcoded, non la prova di un progetto Cloudflare esistente. `send_metrics: false` disabilita la telemetria Wrangler.
 
 ## Riprodurre da un checkout pulito
 
@@ -28,6 +28,8 @@ curl.exe -i http://127.0.0.1:8788/materiali/
 ```
 
 Le risposte devono avere HTTP 200, `<title>`, descrizione e contenuto principale già nel corpo HTML. `npm test` controlla tutte e sei le rotte direttamente con `fetch` Node, senza eseguire script. Verifica anche 404, asset, collegamenti e assenza di pagine pubbliche prerenderizzate. Un browser aperto su `vite dev` non è una prova sostitutiva.
+
+La suite della milestone 2 include le schede dei tre manufatti, le opzioni di essenze/finiture dell’anteprima, l’assenza di controlli di preventivazione, i link editoriali con frammenti e tutte le varianti fotografiche locali. Provare anche `/portfolio/#intervallo`, `/materiali/#noce`, `/lavorazioni/#metodo` e `/contatti/#fotografie`. Nessuna nuova dipendenza, modifica alla configurazione Wrangler o comando remoto è richiesto per la nuova identità. Per tornare alla foundation, i due commit precedenti della milestone 1 sono `6ba79e7` e `06e3ad3`: usare eventuali revert delle modifiche successive, senza reset, merge o force push.
 
 Per un controllo manuale a 390 px: ricaricare la homepage, usare Tab per raggiungere «Salta al contenuto», verificarne il focus visibile e premere Invio; il focus deve arrivare al contenuto principale. Tornare all’header, raggiungere «Menu +» con Tab e aprirlo con Invio/Spazio; i collegamenti devono entrare nell’ordine Tab. Raggiungere «Lavorazioni» e premere Invio; verificare destinazione e indicazione della rotta attiva. Chiudere e riaprire il menu, ripetere a 320 px e controllare il footer. Con JavaScript disabilitato verificare contenuti SSR e collegamenti nel footer; nei browser con supporto `scripting: none`, la navigazione mobile rimane espansa. Lo stato delle prove effettive e i limiti del connettore sono nel worklog.
 

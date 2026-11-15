@@ -19,6 +19,16 @@ La prima milestone costruisce una base riconoscibile e navigabile. La homepage i
 
 Il test essenziale legge via HTTP il risultato della build Pages: tutte le sei pagine devono contenere H1, testo, titolo, descrizione e navigazione. Controlla anche HTTP 404 e asset. Il dettaglio degli esiti effettivi, dei viewport ispezionati e delle dipendenze segnalate è in [WORKLOG](WORKLOG.md). Questa evidenza locale non equivale a deployment remoto, accettazione Safari o certificazione completa di accessibilità.
 
+## Milestone 2 — un quaderno di atelier
+
+L’identità passa dal verde bosco alla coppia noce/betulla, con rame e salvia negli accenti. La homepage avvicina il punto di vista al banco: utensili, mani e superfici. Il marchio ad anelli e la tipografia serif rimangono riconoscibili, dentro una composizione più materica fatta di sezioni scure, fotografie e fogli di studio.
+
+Le sei pagine sono completate con metodo di bottega, tre concept originali, essenze, finiture, cura, domande di progetto e FAQ. Convivio, Intervallo e Sponda hanno disegni SVG originali, misure e note sulle giunzioni. Le immagini fotografiche restano ispirazioni dichiarate: non vengono usate per fingere lavori reali o illustrare come consegnato un concept inventato.
+
+Il futuro configuratore è valorizzato attraverso tipologie, campioni e significato delle misure. Non è presente logica di preventivazione: il contenuto è tutto SSR e le uniche interazioni sono menu, collegamenti e FAQ native. Dati demo centralizzati e componenti per disegni/campioni evitano divergenze tra le pagine senza introdurre backend o dipendenze.
+
+Direzione completa in [BRAND_DIRECTION](BRAND_DIRECTION.md), fonti in [ASSETS](ASSETS.md), risultati e limiti di verifica nel worklog.
+
 ## Passi futuri separati
 
-La milestone 2 completerà contenuti e presentazione dei manufatti; la 3 implementerà scelte vincolate, formula trasparente, prezzo simulato e riepilogo del configuratore; la 4 amplierà audit, documentazione e preparazione al deploy. Non sono state avviate da questa consegna.
+La milestone 3 implementerà scelte vincolate, formula trasparente, prezzo simulato e riepilogo del configuratore; la 4 amplierà audit, documentazione e preparazione al deploy. Non sono state avviate da questa consegna.

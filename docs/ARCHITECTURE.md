@@ -1,4 +1,4 @@
-# Architettura — milestone 1
+# Architettura — milestone 2
 
 ## Richiesta e rendering
 
@@ -18,9 +18,13 @@ src/
     brand/                              marchio originale riutilizzato
     router-head/                        metadati della rotta e canonical opzionale
     section-intro/                      apertura comune delle pagine interne
+    furniture-drawing/                  tre schemi originali SVG, illustrativi
+    project-card/                       scheda sintetica del concept
+    material-swatches/                  campionario con link alle essenze
     site-header/                        navigazione e disclosure mobile
     site-footer/                        navigazione secondaria e disclaimer
   lib/site.ts                           navigazione, helper DocumentHead, origine pubblica
+  lib/catalog.ts                        dati demo di concept, essenze e finiture
   media/                                sorgente fotografica con licenza documentata
   routes/
     layout.tsx                          skip link, header, main, footer
@@ -50,7 +54,9 @@ wrangler.jsonc                          output Pages, runtime locale, nessun bin
 
 ## Design e accessibilità
 
-Palette carta, verde bosco e terracotta, marchio ispirato agli anelli del legno, serif di sistema per i titoli e sans per i testi. Tailwind governa layout, spaziature, colori e breakpoint; CSS dedicato soltanto per campioni decorativi, disclosure responsive e preferenze di movimento. La fotografia locale passa dall’import Qwik `?jsx`, che genera varianti e `srcset` durante la build. La homepage la carica eager con priorità alta, il portfolio lazy. Licenze e attribuzioni in [ASSETS](ASSETS.md).
+Palette noce `#38271D`, betulla `#E9DCC5`, rame `#B66B40` e salvia `#7C8065`, con carta e varianti testuali per contrasto. Marchio ad anelli conservato; serif e sans di sistema. Tailwind governa layout e stati; CSS dedicato a texture, campioni, hero, disclosure responsive e preferenze di movimento. Le quattro foto locali passano dall’import Qwik `?jsx`, che genera varianti e `srcset` a build time. Hero eager ad alta priorità, immagini successive lazy. Licenze in [ASSETS](ASSETS.md), sistema visivo in [BRAND_DIRECTION](BRAND_DIRECTION.md).
+
+`catalog.ts` mantiene dati mock senza stato applicativo: tre concept, tre essenze e tre finiture. `FurnitureDrawing` rende schemi SVG originali accessibili, senza servizi esterni. I campioni sono link ai dettagli materiali, senza selezione. Il portfolio ha sezioni con anchor stabili; tutte le destinazioni rimangono nelle sei rotte previste. Le FAQ usano `details`/`summary` nativi, funzionanti senza JavaScript.
 
 HTML italiano, landmark semantici, un H1 per pagina, alt descrittivi, skip link, `focus-visible`, menu con `aria-controls`/`aria-expanded`, indicazione della rotta attiva e rispetto di `prefers-reduced-motion`. Il menu è una normale disclosure di navigazione, senza focus trap. Non è introdotta una libreria componenti: sono condivisi solo marchio, shell e apertura delle pagine, dove esiste riuso concreto.
 
@@ -62,4 +68,4 @@ TypeScript è strict e usa il runtime JSX `@builder.io/qwik`. Il valore convenzi
 
 ## Limiti intenzionali
 
-Le pagine interne sono la struttura iniziale con testi introduttivi, senza cataloghi completi o schede progetto. Il configuratore non ha stato di prodotto, formule, prezzo o riepilogo; la sola interazione è il menu. Il deployment e qualsiasi configurazione remota richiedono una richiesta separata del proprietario.
+Le sei pagine hanno contenuti dimostrativi completi, senza attività commerciali reali. Il configuratore presenta tipologie, campioni, significato delle misure e finiture: nessuno stato di prodotto, controllo, formula, prezzo o riepilogo. Le interazioni sono menu, link e FAQ native. SSR, adapter, routing, entrypoint, configurazione hosting e dipendenze della foundation restano invariati. Il deployment richiede una richiesta separata del proprietario.

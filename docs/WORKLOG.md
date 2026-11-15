@@ -138,3 +138,99 @@ Milestone successive non avviate. Il prossimo lavoro, solo su nuova istruzione, 
 - Pagina specifica della fotografia e fonte di download in `docs/ASSETS.md`.
 
 Le istruzioni locali applicate per l’hosting sono le skill `cloudflare` e `wrangler`; la configurazione remota non è stata eseguita.
+
+## 2026-11-15 — milestone 2: identità materica e contenuti
+
+### Mandato e stato iniziale
+
+Lettura integrale di `AGENTS.md`, `docs/MVP.md` e dei documenti della foundation (README, architettura, deployment, case study, asset e worklog). Per istruzione esplicita, lavoro sul branch esistente `feature/mvp-foundation`, senza creare altri branch o worktree. Nessun subagente.
+
+```powershell
+git status --short
+git branch --show-current
+git log -3 --oneline
+git fetch origin
+git rev-list --left-right --count HEAD...origin/feature/mvp-foundation
+```
+
+Working tree inizialmente pulito; HEAD `06e3ad3`, allineamento remoto `0 0`. Nessuna modifica utente imprevista. Specifiche vincolanti preservate; nessun merge, rebase o modifica agli altri branch.
+
+### Direzione e contenuti realizzati
+
+- Palette richiesta: noce `#38271D`, betulla `#E9DCC5`, rame `#B66B40`, salvia `#7C8065`. Verde bosco rimosso dai token e dai componenti; aggiornati anche favicon e theme-color. Conservato il marchio ad anelli.
+- Texture carta CSS originale, hero scuro, fotografia ravvicinata, sezioni immersive e composizione da quaderno. Serif di sistema e testi funzionali senza font esterni. Varianti di rame e bruno per testi piccoli leggibili; rapporti dei colori solidi calcolati e documentati.
+- Homepage completa con bottega, tre studi, materiali, rifinitura e accesso all’anteprima.
+- Lavorazioni: famiglie di arredo, metodo in quattro passaggi, giunzioni, bordi e superficie.
+- Portfolio: Convivio (tavolo), Intervallo (libreria), Sponda (madia), con disegni SVG originali, dimensioni L × P × H, essenza, finitura, dettaglio e contesto. Concept dimostrativi, non lavori reali, esecutivi o verifiche strutturali.
+- Materiali: noce, rovere e frassino; tre finiture con descrizioni, campioni illustrativi, osservazione della superficie e note sulla cura. Nessuna prestazione certificata o essenza attribuita arbitrariamente alle fotografie.
+- Configuratore: presentazione di sola lettura di tipologie, materiali, significato delle tre misure e finiture. Nessun input, selezione apparente, formula, prezzo, riepilogo copiabile o invio. Milestone 3 non avviata.
+- Contatti: domande utili per pensare un progetto, trasparenza sulla bottega immaginaria, quattro FAQ native e crediti. Nessun recapito inventato, modulo o messaggio raccolto.
+
+### Asset e struttura
+
+Tre nuove fotografie Unsplash gratuite: Dominik Scythe (utensili), Elliott Ledain (rifinitura), Colin Watts (superficie), aggiunte alla fotografia della foundation. Verificate pagine e licenza prima del download; copie locali in `src/media`, attribuzioni e URL riproducibili in `docs/ASSETS.md`, crediti pubblici in Contatti. Le immagini non rappresentano Radice o i concept originali.
+
+Download con `Invoke-WebRequest -Uri <URL-documentato-in-ASSETS> -OutFile src/media/<nome>.webp`. Varianti responsive tramite gli import Qwik `?jsx` già presenti nello stack; nessun hotlink o servizio immagini nel runtime.
+
+`src/lib/catalog.ts` centralizza soltanto dati mock di concept, essenze e finiture. Nuovi componenti `FurnitureDrawing`, `ProjectCard`, `MaterialSwatches` per il riuso effettivo nelle pagine. Routing e layout Qwik City preservati. FAQ native `details`/`summary`, senza dipendenze. Nessun cambiamento a adapter, entrypoint SSR, configurazione Wrangler, lockfile o dipendenze.
+
+Creato `docs/BRAND_DIRECTION.md`; aggiornati README, ARCHITECTURE, DEPLOYMENT, CASE_STUDY, ASSETS e questo registro. Procedure di avvio e rollback della foundation ancora valide. Per annullare la milestone usare commit inversi sul branch, quindi build e test; niente reset, merge o force push.
+
+### Comandi e riproduzione
+
+Dipendenze già installate dalla foundation, nessun install o aggiornamento necessario. Da un checkout pulito usare prima `npm ci` come nel README.
+
+```powershell
+npm run fmt
+npm run typecheck
+npm run lint
+npm run fmt.check
+npm run build
+npm run serve -- --port 8790
+```
+
+Con runtime attivo, in un secondo terminale:
+
+```powershell
+$env:TEST_BASE_URL = 'http://127.0.0.1:8790'
+npm test
+Remove-Item Env:TEST_BASE_URL
+```
+
+Usato Wrangler locale **4.162.0**, build di produzione con adapter Pages ufficiale. Nessun login, account, provisioning, binding remoto o deployment. Arrestare il solo processo locale avviato per questa verifica con `Ctrl+C` (oppure `x` nel terminale interattivo Wrangler).
+
+### Verifiche
+
+| Verifica | Evidenza |
+| --- | --- |
+| TypeScript strict | `npm run typecheck`, codice 0 |
+| ESLint | `npm run lint`, codice 0, nessun warning ammesso |
+| Formattazione | `npm run fmt.check`, codice 0 |
+| Produzione | `npm run build`, codice 0; client, server, typecheck e lint |
+| HTTP sul runtime Pages | **14/14 test**, nessuno saltato |
+| SSR | Tutte le sei rotte con contenuti significativi, H1 e metadati nel primo HTML, senza eseguire JS; 404 corretto |
+| Contenuti nuovi | Tre schede e quote, note sulle giunzioni, essenze/finiture su entrambe le pagine; nessun controllo o prezzo nel configuratore |
+| Collegamenti | Destinazioni locali e tutti i frammenti editoriali risolti, inclusi portfolio/materiali/metodo/crediti |
+| Fotografie | Varianti responsive locali richieste via HTTP e corpi immagine letti, stato 200 e MIME WebP |
+| Responsive | 30 controlli: sei rotte a 320/390/768/1024/1440 px, nessun overflow, un H1 per pagina |
+| Ispezione visiva | Home desktop, configuratore mobile, portfolio tablet, Contatti desktop; controllati foto, disegni, titoli e spaziature |
+| Comportamento | Menu mobile aperto/chiuso con aggiornamento aria-expanded; skip link sposta il focus al main; FAQ si espandono. Attivazioni DOM, non prova da tastiera fisica |
+| Console | Nessun errore o warning applicativo osservato |
+
+Le foto lazy vengono ispezionate dopo il caricamento/decodifica, non contando come difetto uno screenshot acquisito prima del loro caricamento. Le catture stanno in `test-results/m2-*.png`, il log build in `test-results/milestone-2-build.log`, entrambi esclusi da Git. La suite HTTP legge direttamente l’HTML, quindi non dipende dalla disponibilità di un contesto browser con JS disabilitato.
+
+### Correzioni e limiti
+
+- Scelta una variante testuale scura del rame: il colore principale non raggiunge il rapporto necessario per piccoli testi sul chiaro. Scuro anche il bruno secondario per la betulla. Il calcolo dei token non è una certificazione WCAG completa.
+- Aggiunto consumo dei corpi immagine al test asset, per evitare che le risposte fetch non lette mantengano aperte connessioni durante l’uscita del runner.
+- Dopo ispezione tablet, le schede portfolio passano a due colonne solo da 1024 px e il foglio di disegno mantiene la sua altezza naturale; sotto questa soglia si leggono in sequenza.
+- Nessuna nuova prova di input fisico da tastiera o Safari: restano i limiti del connettore descritti nella foundation. Semantica e focus CSS preservati; percorso manuale riproducibile nel deployment. Le attivazioni DOM sono dichiarate come simulazione funzionale.
+- Audit dipendenze non rieseguito in questa milestone: le segnalazioni registrate nella foundation non sono dichiarate risolte. Dipendenze e lockfile invariati; nessuna remediation fuori scope.
+- Nessuna prova di deployment remoto o modifica a DNS, Access, secrets, CI o billing.
+- L’ultima acquisizione aggiuntiva del browser è rimasta bloccata durante la decodifica e poi anche sulle letture successive; interrotta senza modificare o riavviare il browser condiviso. Le 30 verifiche e le schermate salvate precedono l’ultimo ritocco di copy nella home e l’impaginazione tablet del portfolio. Build e 14 test HTTP sono stati rieseguiti sul contenuto finale; la ricattura visiva del portfolio aggiornato rimane da effettuare manualmente.
+
+### Consegna Git e arresto
+
+Commit atomici sul solo `feature/mvp-foundation`: **`689443b` — `feat: create material identity and complete Radice content`** per implementazione, test e fonti asset; **`docs: document Radice brand direction and milestone two validation`** per direzione di marca, documenti aggiornati e questo registro. Per ciascuno usato `git -c commit.gpgsign=false commit -F <file-messaggio-locale>`. File dei messaggi esclusi da Git in `test-results`. Push autorizzato: `git push origin feature/mvp-foundation`. Identificativo del commit documentale recuperabile con `git log -2 --oneline`.
+
+Controlli finali: `git diff --check`, `git status --short`, confronto `HEAD...origin/feature/mvp-foundation` e diff nullo per `AGENTS.md` e `docs/MVP.md`. Nessuna modifica permanente alla configurazione Git. La milestone si ferma qui: il preventivo simulato e il riepilogo sono riservati alla successiva istruzione.
