@@ -47,7 +47,6 @@ export const FurnitureConfigurator = component$(() => {
         simulata: nessun ordine, offerta commerciale o invio alla bottega.
       </p>
       <noscript>
-        <style dangerouslySetInnerHTML=".config-controls, .config-actions { display: none !important; }" />
         <p class="note mt-6">
           Per modificare la configurazione serve JavaScript. Qui puoi leggere la
           configurazione iniziale, il prezzo dimostrativo e la formula già

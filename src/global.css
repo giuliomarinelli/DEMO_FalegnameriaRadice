@@ -304,3 +304,11 @@
     display: flex;
   }
 }
+
+/* Keep this outside noscript: Qwik may recreate its children on an update. */
+@media (scripting: none) {
+  .config-controls,
+  .config-actions {
+    display: none;
+  }
+}
