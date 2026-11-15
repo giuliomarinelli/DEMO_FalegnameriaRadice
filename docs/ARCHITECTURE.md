@@ -1,0 +1,65 @@
+# Architettura — milestone 1
+
+## Richiesta e rendering
+
+Qwik City gestisce il routing file-based e il rendering SSR. La prima richiesta attraversa il middleware ufficiale Cloudflare Pages, risolve la rotta, genera l’HTML con `renderToStream` e restituisce contenuti e metadati. Il browser carica CSS, immagini locali e i moduli Qwik necessari alle interazioni. L’apertura del menu usa `component$`, `useSignal` ed eventi QRL `onClick$`; nessuna idratazione React.
+
+Le navigazioni sono link HTML ordinari: ogni destinazione è richiedibile direttamente. Anche a JavaScript disabilitato, il contenuto resta nel documento e il menu mobile è espanso dalla media query `scripting: none` nei browser che la supportano. Il footer mantiene comunque tutti i collegamenti.
+
+Non esistono API business, database, account, form di invio, servizi font esterni, analitiche o pagamenti. I testi dimostrativi risiedono nel codice. Le Pages Functions sono esclusivamente il runtime SSR consentito dalla specifica.
+
+## Struttura
+
+```text
+adapters/cloudflare-pages/vite.config.ts  adapter ufficiale, build SSR, ssg: { include: [], exclude: ["*"] }
+public/                                 favicon, robots, direttive cache
+src/
+  components/
+    brand/                              marchio originale riutilizzato
+    router-head/                        metadati della rotta e canonical opzionale
+    section-intro/                      apertura comune delle pagine interne
+    site-header/                        navigazione e disclosure mobile
+    site-footer/                        navigazione secondaria e disclaimer
+  lib/site.ts                           navigazione, helper DocumentHead, origine pubblica
+  media/                                sorgente fotografica con licenza documentata
+  routes/
+    layout.tsx                          skip link, header, main, footer
+    index.tsx                           homepage
+    lavorazioni/index.tsx
+    portfolio/index.tsx
+    materiali/index.tsx
+    configuratore/index.tsx
+    contatti/index.tsx
+    404.tsx                             pagina sconosciuta
+  entry.cloudflare-pages.tsx            middleware Pages
+  entry.ssr.tsx                         renderToStream, lingua italiana
+  entry.dev.tsx                         entrypoint standard dello scaffold
+  entry.preview.tsx                     entrypoint standard Node, non usato per validare Pages
+  root.tsx                              QwikCityProvider, head, RouterOutlet
+  global.css                            Tailwind 4, token e pochi stili dedicati
+tests/ssr.test.mjs                       integrazione HTTP sulla produzione locale
+vite.config.ts                          plugin Qwik City, Qwik, Tailwind e alias TS
+wrangler.jsonc                          output Pages, runtime locale, nessun binding
+```
+
+`entry.dev.tsx` è il file convenzionale dello scaffold; i comandi pubblicati avviano `vite --mode ssr`. La verifica di accettazione usa **Wrangler sulla build**, non l’entrypoint di sviluppo o il preview Node.
+
+## Artefatti
+
+`npm run build` usa il coordinatore ufficiale `qwik build`: typecheck, client, server e lint. L’adapter produce `dist/_worker.js`, piano delle rotte, `_routes.json` e asset client in `dist/build` e `dist/assets`. `ssg: { include: [], exclude: ["*"] }` disabilita la generazione delle pagine statiche; un eventuale `404.html` tecnico dell’adapter non sostituisce SSR. `dist/`, `server/` e le cache non sono versionati. Il piccolo `_worker.js` importa i moduli nella cartella `server/`: mantenerla accanto a `dist/` fino al bundling Wrangler. Non trasferire solo `dist/` come sito statico.
+
+## Design e accessibilità
+
+Palette carta, verde bosco e terracotta, marchio ispirato agli anelli del legno, serif di sistema per i titoli e sans per i testi. Tailwind governa layout, spaziature, colori e breakpoint; CSS dedicato soltanto per campioni decorativi, disclosure responsive e preferenze di movimento. La fotografia locale passa dall’import Qwik `?jsx`, che genera varianti e `srcset` durante la build. La homepage la carica eager con priorità alta, il portfolio lazy. Licenze e attribuzioni in [ASSETS](ASSETS.md).
+
+HTML italiano, landmark semantici, un H1 per pagina, alt descrittivi, skip link, `focus-visible`, menu con `aria-controls`/`aria-expanded`, indicazione della rotta attiva e rispetto di `prefers-reduced-motion`. Il menu è una normale disclosure di navigazione, senza focus trap. Non è introdotta una libreria componenti: sono condivisi solo marchio, shell e apertura delle pagine, dove esiste riuso concreto.
+
+## Metadati e configurazione pubblica
+
+Ogni file di rotta esporta un `DocumentHead`. Titoli, descrizioni e Open Graph vengono renderizzati da `RouterHead`. Canonical opzionale da `VITE_SITE_ORIGIN` a build time: si usa solo origine più pathname, escludendo query e frammenti. Nessun dominio presunto o localhost pubblicato come canonical. Tutte le pagine sono `noindex, nofollow` per la demo. Questi metadati non sono autenticazione né protezione Access.
+
+TypeScript è strict e usa il runtime JSX `@builder.io/qwik`. Il valore convenzionale `jsx: react-jsx` seleziona la trasformazione automatica TypeScript e **non** introduce React: `jsxImportSource` punta a Qwik.
+
+## Limiti intenzionali
+
+Le pagine interne sono la struttura iniziale con testi introduttivi, senza cataloghi completi o schede progetto. Il configuratore non ha stato di prodotto, formule, prezzo o riepilogo; la sola interazione è il menu. Il deployment e qualsiasi configurazione remota richiedono una richiesta separata del proprietario.
