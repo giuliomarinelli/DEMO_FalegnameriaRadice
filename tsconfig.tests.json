@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "incremental": false,
+    "outDir": "./test-results/configurator",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/lib/configurator.ts",
+    "src/lib/catalog.ts",
+    "src/components/furniture-configurator/*.tsx",
+    "src/components/configuration-drawing/*.tsx"
+  ]
+}

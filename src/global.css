@@ -148,6 +148,31 @@
   .faq-item p {
     @apply mt-3 max-w-3xl pb-2 text-sm leading-7 text-muted;
   }
+  .config-label {
+    @apply mb-2 block text-sm font-semibold;
+  }
+  .config-input {
+    @apply block min-h-12 w-full min-w-0 border border-walnut/50 bg-paper px-3 py-3 text-base text-walnut;
+  }
+  .config-input[aria-invalid="true"] {
+    @apply border-ink-copper border-2;
+  }
+  .config-choice {
+    @apply flex min-h-12 cursor-pointer items-start gap-3 border border-line bg-paper p-4;
+  }
+  .config-choice input {
+    @apply mt-1.5 h-4 w-4 shrink-0 accent-walnut;
+  }
+  .config-choice.is-selected {
+    @apply border-walnut bg-birch/55;
+  }
+  .config-choice:focus-within {
+    outline: 3px solid var(--color-ink-copper);
+    outline-offset: 3px;
+  }
+  .button-secondary {
+    @apply inline-flex min-h-12 items-center justify-center border border-walnut px-5 py-3 text-sm hover:bg-birch;
+  }
 }
 
 /* Original CSS paper grain and illustrative wood swatches: no remote textures. */

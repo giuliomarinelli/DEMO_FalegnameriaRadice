@@ -15,10 +15,12 @@
     "build.types": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
-    "test": "node --test tests/*.test.mjs",
+    "test": "npm run test.unit && npm run test.ssr",
+    "test.unit": "tsc -p tsconfig.tests.json && node tests/prepare-components.mjs && node --conditions=development --test tests/configurator.test.mjs tests/configurator.component.test.mjs",
+    "test.ssr": "node --test tests/ssr.test.mjs",
     "serve": "wrangler pages dev --ip 127.0.0.1",
-    "fmt": "prettier --write src adapters tests vite.config.ts eslint.config.js package.json tsconfig.json wrangler.jsonc",
-    "fmt.check": "prettier --check src adapters tests vite.config.ts eslint.config.js package.json tsconfig.json wrangler.jsonc",
+    "fmt": "prettier --write src adapters tests vite.config.ts eslint.config.js package.json tsconfig.json tsconfig.tests.json wrangler.jsonc",
+    "fmt.check": "prettier --check src adapters tests vite.config.ts eslint.config.js package.json tsconfig.json tsconfig.tests.json wrangler.jsonc",
     "qwik": "qwik"
   },
   "devDependencies": {

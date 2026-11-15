@@ -186,7 +186,7 @@ export default component$(() => (
     <section class="shell section-space" aria-labelledby="future-title">
       <div class="grid gap-8 border-b border-line pb-12 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
-          <p class="eyebrow text-ink-copper">Il tuo progetto / Un’anteprima</p>
+          <p class="eyebrow text-ink-copper">Il tuo progetto / Configuratore</p>
           <h2 id="future-title" class="section-title mt-4">
             E se prendesse
             <br />
@@ -196,15 +196,14 @@ export default component$(() => (
         <div>
           <p class="body-copy">
             Un tavolo, una libreria o una madia. Un’essenza da sentire vicina,
-            una finitura da osservare. Scopri le possibilità che preparano il
-            futuro configuratore.
+            una finitura da osservare. Prova le misure e leggi una stima
+            simulata con tutti i fattori di prezzo in chiaro.
           </p>
           <a class="button-primary mt-6" href="/configuratore/">
-            Esplora materiali e opzioni <span aria-hidden="true">↗</span>
+            Configura il tuo arredo <span aria-hidden="true">↗</span>
           </a>
           <p class="mt-4 text-xs leading-6 text-muted">
-            Anteprima visiva: configuratore e prezzi simulati non ancora
-            disponibili.
+            Cifre inventate, nessuna offerta commerciale. Nessun ordine o invio.
           </p>
         </div>
       </div>

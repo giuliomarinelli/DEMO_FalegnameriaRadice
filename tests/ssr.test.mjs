@@ -12,7 +12,7 @@ const pages = [
   [
     "/configuratore/",
     "Un’idea, nelle tue misure.",
-    "Configuratore in preparazione",
+    "Configuratore di arredi su misura",
   ],
   [
     "/contatti/",
@@ -81,10 +81,23 @@ for (const [path, heading, title] of pages) {
   });
 }
 
-test("the configurator remains an honest introduction with no business interaction", async () => {
+test("the configurator serves a complete initial simulation without a business form", async () => {
   const html = await (await request("/configuratore/")).text();
-  assert.ok(html.includes("Il configuratore non è ancora disponibile."));
-  assert.doesNotMatch(html, /<(?:form|input|select|textarea)\b/);
+  assert.ok(html.includes('id="estimate-total"'));
+  assert.ok(html.includes("483,18"));
+  assert.ok(html.includes("radice-demo-v1"));
+  assert.equal((html.match(/type="number"/g) || []).length, 3);
+  assert.equal((html.match(/type="radio"/g) || []).length, 3);
+  assert.equal((html.match(/<select\b/g) || []).length, 2);
+  assert.match(
+    html,
+    /id="config-width"[^>]*min="120"[^>]*max="240"|min="120"[^>]*max="240"[^>]*id="config-width"/,
+  );
+  assert.ok(html.includes("Copia il riepilogo"));
+  assert.ok(html.includes("Ripristina configurazione"));
+  assert.ok(html.includes("non è un’offerta commerciale"));
+  assert.ok(html.includes("<noscript>"));
+  assert.doesNotMatch(html, /<form\b/);
 });
 
 test("an unknown direct route returns HTTP 404", async () => {
@@ -115,7 +128,7 @@ test("portfolio contains three original case studies with dimensions and constru
   );
 });
 
-test("the material catalogue and configurator preview expose options without price controls", async () => {
+test("the catalogue and configurator expose consistent material and finish options", async () => {
   for (const path of ["/materiali/", "/configuratore/"]) {
     const html = await (await request(path)).text();
     const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
@@ -128,8 +141,14 @@ test("the material catalogue and configurator preview expose options without pri
       "Olio pigmentato",
     ])
       assert.ok(main.includes(name));
-    assert.doesNotMatch(main, /<(?:form|input|select|textarea|button)\b/);
-    assert.doesNotMatch(main, /\d[.,]\d{2}\s*(?:€|EUR)/);
+    if (path === "/materiali/") {
+      assert.doesNotMatch(main, /<(?:form|input|select|textarea|button)\b/);
+      assert.doesNotMatch(main, /\d[.,]\d{2}\s*(?:€|EUR)/);
+    } else {
+      assert.ok(main.includes("Da cosa nasce la cifra"));
+      assert.ok(main.includes("Superficie equivalente"));
+      assert.ok(main.includes("Quota fissa"));
+    }
   }
 });
 

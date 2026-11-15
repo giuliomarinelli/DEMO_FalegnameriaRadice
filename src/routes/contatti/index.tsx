@@ -101,9 +101,10 @@ export default component$(() => (
           <details class="faq-item">
             <summary>Posso già ottenere un preventivo?</summary>
             <p>
-              Il configuratore non è ancora disponibile. L’anteprima presenta
-              tipologie, materiali e finiture; in futuro il prezzo sarà soltanto
-              simulato, con formula esplicita e senza ordini.
+              Puoi usare il configuratore per ottenere una stima interamente
+              simulata, con formula esplicita, fattori di prezzo e riepilogo
+              copiabile. Le cifre sono inventate: non costituiscono un’offerta
+              commerciale e non permettono di effettuare ordini o invii.
             </p>
           </details>
           <details class="faq-item">
