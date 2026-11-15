@@ -39,6 +39,14 @@ SSR restituisce già simulazione iniziale, formula e metadati; le modifiche usan
 
 Evidenza: 11 test del modello, 4 dei componenti Qwik con DOM di test ufficiale e 14 HTTP su produzione Pages locale, oltre a typecheck, lint e build. I test dei componenti simulano eventi e clipboard; non provano layout, tastiera fisica o ripresa Qwik nel browser di produzione. Il connettore browser non ha risposto in questa sessione: la matrice manuale è documentata e resta un limite di accettazione esplicito.
 
+## Milestone 4A — collaudo con evidenze parziali
+
+La prova sulla pagina di produzione ha trovato un difetto sfuggito ai test DOM: una regola CSS dentro `noscript`, reinserita da Qwik durante l’aggiornamento, nascondeva i controlli dopo la prima modifica. Il prezzo si aggiornava, ma l’utente perdeva l’interfaccia. Spostare la regola nella media query globale `scripting: none` conserva lo scopo senza attivarla nel flusso interattivo. Corretto anche un richiamo obsoleto all’anteprima nella CTA Materiali.
+
+Il collaudo aggiunge 18 screenshot rivisti, misure senza overflow delle sei rotte a 1440/768 e 68 verifiche native sul bundle reale: estremi con prezzo esatto, valori rifiutati, vuoti/decimali e reset completo. Provati anche skip link, menu e navigazione da tastiera. Il completamento esclusivo si ferma prima di nuove sequenze: HTTP funziona, ma MCP non restituisce nemmeno l’elenco schede. Restano 320 px, percorso completo da tastiera nel configuratore e altri casi elencati nel report; le prove interrotte non sono dichiarate superate. Nessuna nuova funzionalità o revisione generale del design.
+
+[CONTENT_AUDIT](CONTENT_AUDIT.md) individua opportunità mirate: rendere concreto il metodo, confrontare le opzioni e chiarire le CTA, senza riempire le pagine o inventare credenziali aziendali. [DEPENDENCY_AUDIT](DEPENDENCY_AUDIT.md) distingue le 12 segnalazioni e la loro esposizione effettiva, senza downgrade forzati. [QA_CHECKLIST](QA_CHECKLIST.md) conserva confini, risultati e residui del collaudo.
+
 ## Passi futuri separati
 
-La milestone 4 amplierà audit, accessibilità e preparazione al deploy. Non viene avviata da questa consegna; nessuna pubblicazione è stata effettuata.
+La 4A si ferma al collaudo descritto. Eventuali completamenti manuali, interventi editoriali e preparazione alla pubblicazione richiedono una nuova istruzione. Nessuna pubblicazione è stata effettuata.

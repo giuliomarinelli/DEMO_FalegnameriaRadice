@@ -66,7 +66,7 @@ La copia usa `navigator.clipboard.writeText` solo da un clic dell’utente. La c
 
 ## SSR e accessibilità
 
-La prima risposta SSR contiene configurazione iniziale, prezzo, fattori, formula, disclaimer e metadati. Le modifiche richiedono JavaScript; `noscript` lo dichiara e nasconde i controlli non operativi, lasciando leggibile la simulazione iniziale. Nessuna sostituzione con CSR o SSG.
+La prima risposta SSR contiene configurazione iniziale, prezzo, fattori, formula, disclaimer e metadati. Le modifiche richiedono JavaScript; `noscript` lo dichiara, mentre una media query globale `scripting: none` nasconde i controlli non operativi nei browser che la supportano. La simulazione iniziale resta leggibile. La regola è esterna a `noscript` per evitare che una ricreazione DOM di Qwik la renda attiva anche con scripting abilitato, difetto riprodotto e corretto nella 4A. Nessuna sostituzione con CSR o SSG.
 
 Radio, select, number e button nativi; fieldset/legend, label esplicite, aiuti ed errori associati con `aria-describedby`, `aria-invalid`, focus visibile e stati annunciati con `role=status`. Il prezzo usa una regione live cortese. Il disegno ha una descrizione accessibile. Colonna singola sotto il breakpoint desktop; riepilogo sticky solo sul desktop. Questo progetto semantico non equivale a certificazione WCAG o verifica con screen reader.
 
@@ -95,3 +95,5 @@ Remove-Item Env:TEST_BASE_URL
 11 test del modello coprono estremi e valori adiacenti per tutte le misure, input malformati, 27 combinazioni, esempi indipendenti, arrotondamento, monotonia, reset delle misure e riepilogo. 4 test dei componenti verificano reattività effettiva di Qwik, limiti aggiornati, errori, reset, diagramma e copia con clipboard simulata, incluso il rifiuto del permesso. Nessuna scrittura nella clipboard reale durante i test. I 14 test HTTP controllano produzione Pages, contenuti iniziali e metadati senza eseguire JS, sei rotte, link, immagini e 404.
 
 La simulazione DOM non verifica layout, tastiera fisica, permessi della clipboard del browser o ripresa Qwik dalla pagina di produzione. Per la matrice manuale vedere [DEPLOYMENT](DEPLOYMENT.md); esiti realmente ottenuti e blocchi in [WORKLOG](WORKLOG.md).
+
+Il successivo [collaudo 4A](QA_CHECKLIST.md) aggiunge evidenza della ripresa sulla produzione Pages, delle variazioni e degli estremi nel browser, con copertura e limiti espliciti. Non equivale ad accettazione completa da tastiera o su tutti i viewport.

@@ -307,3 +307,123 @@ Creato CONFIGURATOR per formula, assunzioni, architettura e test; aggiornati REA
 Commit implementazione e test: **`a69fc1e` — `feat: add reactive furniture configurator with transparent demo pricing`**. Commit documentale separato: `docs: document configurator model and milestone three validation`. Usato per ciascuno `git -c commit.gpgsign=false commit -F <file-messaggio-locale>`; messaggi locali in `test-results`, nessuna modifica permanente Git. Push previsto esclusivamente con `git push origin feature/mvp-foundation`; verifica di consegna tramite `git status --short`, `git log -2 --oneline` e `git rev-list --left-right --count HEAD...origin/feature/mvp-foundation` (atteso 0/0 dopo push). Identificativo documentale recuperabile dal log senza autoriferimenti nel file.
 
 La milestone 3 termina con questa consegna. La milestone 4 non viene avviata; rimangono espliciti i controlli browser descritti sopra. Arrestare con `x` o `Ctrl+C` soltanto Wrangler avviato per questa verifica.
+
+## 2026-11-15 — Milestone 4A, collaudo visuale e funzionale
+
+Questa sezione registra il primo tratto della 4A. I risultati recuperati dopo la richiesta di nuova connessione e il successivo arresto esclusivo sono nel paragrafo finale «Integrazione 4A — connessione dedicata e verifica esclusiva». Per lo stato cumulativo usare QA_CHECKLIST, senza considerare i primi residui come ancora tutti aperti.
+
+### Mandato, baseline e metodo
+
+Letti AGENTS, MVP, BRAND_DIRECTION e il worklog completo, poi documentazione e sorgenti pertinenti. Branch esistente `feature/mvp-foundation`, working tree inizialmente pulito, baseline **`b470451`**. `git fetch origin` e `git rev-list --left-right --count HEAD...origin/feature/mvp-foundation`: **0/0**. Nessun nuovo branch, worktree o subagente. Specifiche e configurazione servizi preservate.
+
+Usata la skill locale Wrangler per il runtime del progetto; consultati documentazione ufficiale Pages per lo sviluppo locale, help/configurazione installati e advisory delle dipendenze. La lettura iniziale di `npm exec -- wrangler pages dev --help` ha mostrato l’help npm anziché inoltrare il flag; i comandi di esecuzione restano gli script del progetto già verificati, senza installare una versione globale. Nessun aggiornamento delle dipendenze.
+
+Prima build sulla baseline, avvio locale, riproduzione di un difetto, arresto del runtime, correzione e nuova build. Riavviato Wrangler solo dopo completamento della build corretta, su `127.0.0.1:8790`, versione **4.162.0**. Le prove visuali e funzionali usano il Worker Pages e gli asset di produzione, non il server Vite di sviluppo. I metadati CF_PAGES stampati all’avvio identificano la baseline Git perché i commit sono successivi al collaudo; la build contiene le correzioni locali poi versionate nei due commit sotto.
+
+### Difetti riproducibili corretti
+
+1. **Controlli del configuratore nascosti alla prima modifica.** Caricamento diretto a 1440: `display:block`, circa 650 px di larghezza per i controlli. Dopo L 180 → 201: prezzo 513,99 € corretto ma `display:none`, larghezza zero. Nel browser, scripting abilitato e regola `.config-controls, .config-actions { display:none!important }` attiva dentro `noscript`. Qwik ricrea i figli durante il rendering reattivo: lo stile diventa operativo. Rimossa la regola inline, mantenuto il testo noscript, aggiunto il medesimo intento al CSS globale sotto `@media (scripting: none)`. Nessun task client aggiunto o cambiamento alla formula. Verifica successiva: controlli visibili dopo modifiche, cambio prodotto e reset. Cattura difetto `test-results/m4a-before-hidden-controls.png`.
+2. **CTA Materiali obsoleta.** Il link al configuratore parlava ancora di «anteprima», contraddicendo lo strumento già disponibile. Testo corretto in «Prova essenze e finiture nel configuratore», stessa destinazione e stesso layout. Nessun ampliamento editoriale effettuato.
+
+Nessun altro intervento applicativo: niente restyling generale, nuove funzionalità, formula diversa, backend o asset aggiunti.
+
+### Verifiche effettive e limiti
+
+| Verifica | Esito / evidenza |
+| --- | --- |
+| TypeScript strict | `npm run typecheck`, codice 0 sul codice corretto |
+| ESLint | `npm run lint`, codice 0, zero warning ammessi |
+| Formattazione | `npm run fmt.check`, codice 0 |
+| Build produzione | `npm run build`, codice 0; client, server SSR, typecheck e lint |
+| Modello e componenti Qwik | **15/15**; include vuoti, decimali, reset completo e clipboard simulata |
+| HTTP su Wrangler | **14/14**; sei rotte SSR con contenuto e metadati senza JS client, configurazione iniziale, 404, link/frammenti e immagini locali |
+| Ripresa sul browser di produzione | Modifica L 180 → 200: 512,52 €, riepilogo/schema aggiornati; reset di questa modifica torna a 483,18 €. Libreria frassino/opaca: 884,74 €; madia noce/pigmentato: 1.300,41 € |
+| Vincoli nel browser | Nove coppie min/max controllate, 18 estremi accettati, 18 adiacenti rifiutati; errori visibili e copia disabilitata. Gestori del bundle Qwik reale, non modello importato nel test |
+| Responsive numerico | **12** combinazioni restituite: sei rotte × 1440/768; HTTP 200, un H1, nessun overflow del documento o elemento main oltre i bordi |
+| Screenshot rivisti | **17** finali: sei a 1440, sei a 768, cinque a 390; tutte tranne Contatti mobile. Controllati gerarchia, spaziature, immagini, testo e CTA. Nessun taglio orizzontale evidente nelle cinque catture mobili |
+| Contrasto token solidi | Noce/carta 12,76; noce/betulla 10,51; bruno/carta 5,87; bruno/betulla 4,84; rame scuro/carta 5,83; rame scuro/betulla 4,80. Non audit completo di ogni stato o trasparenza |
+| Audit dipendenze | **12 segnalazioni, 8 moderate/4 high**, codice audit 1; analisi in DEPENDENCY_AUDIT, nessun fix forzato |
+| File protetti | Nessun diff per AGENTS, MVP, package/lockfile, adapter e Wrangler |
+
+Le misure del browser distinguono viewport impostato e area utile: 1440/768/390 con scrollbar da 15 px producono PNG larghi 1425/753/375. Non equivalgono a dispositivi mobili reali. Nei primi controlli due immagini lazy non erano ancora caricate; per le catture si è modificato **solo il DOM di test** a `loading=eager` e attesa la decodifica con un limite temporale. Le foto sono poi visibili nelle catture riviste e disponibili via HTTP. Caricamento lazy su scroll naturale ancora da provare manualmente: non corretto un presunto asset rotto senza evidenza.
+
+La prova interattiva usa fill/selectOption nel browser e `element.click()` nel DOM per radio/reset, quindi verifica anche il resume e i QRL del bundle reale. **Non è un’accettazione di mouse/tastiera nativi.** Dopo la correzione il campo ha focus e rettangolo visibile, ma il probe temporaneo non rileva keydown per ArrowUp/Tab; un clic Playwright rimane nell’attesa di visibilità/stabilità. Non aggiunti handler o modifiche al focus per compensare il connettore. La routine dei limiti registra 70 asserzioni riuscite, poi un timeout di attesa nel ripristino dell’ultima misura; la lettura successiva mostra nuovamente misure valide e prezzo corrente. Non conteggiata come suite browser interamente passata; i successivi passi vuoto/decimale e reset completo rimangono senza conferma browser conclusiva. Restano coperti dai test locali distinti.
+
+Durante la sesta cattura a 390 (Contatti), `page.screenshot` restituisce timeout dopo 5000 ms, dopo il caricamento dei font. **Interrotta l’automazione senza retry della cattura né tentativi a 320**, come richiesto. Nessun reset del browser condiviso, browser CLI alternativo, input nativo sostitutivo o modifica delle impostazioni di sistema. I cinque PNG mobili precedenti sono completi (`IEND`) e rivisti; la routine non ha restituito il report numerico finale di quella larghezza. La matrice 24/24 non è dichiarata superata.
+
+Residui espliciti: tutte le rotte a 320; Contatti a 390; 404 visuale; percorso completo di tastiera; menu mobile interattivo nella 4A; clipboard reale; errori vuoto/decimale e reset completo nel browser; caricamento lazy naturale e browser con JS disabilitato. Nessuna nuova prova Safari/screen reader o certificazione WCAG. Le prove di M1/M2 sono storiche e non sostituiscono queste verifiche.
+
+### Riproduzione ed evidenze
+
+```powershell
+git status --short
+git branch --show-current
+git fetch origin
+git rev-list --left-right --count HEAD...origin/feature/mvp-foundation
+npm run typecheck
+npm run lint
+npm run fmt.check
+npm run build
+npm run serve -- --port 8790
+```
+
+Da un secondo terminale, con runtime attivo:
+
+```powershell
+$env:TEST_BASE_URL = 'http://127.0.0.1:8790'
+npm test
+Remove-Item Env:TEST_BASE_URL
+npm audit --json > test-results/m4a-npm-audit.json
+$auditExit = $LASTEXITCODE
+Write-Output "npm audit exit code: $auditExit"
+npm ls sharp zod minimatch vite-imagetools --all
+```
+
+L’audit ha codice 1 per le segnalazioni, mentre build/test hanno codice 0. L’albero distingue sharp **0.34.5** (Qwik City → vite-imagetools) da **0.35.5** (Wrangler → miniflare), Zod **3.25.48** e minimatch **10.2.6** nella catena typescript-eslint. Verificati advisory e percorsi locali: immagini elaborate a build time, nessun upload; nessun validatore Zod/action o pattern glob ricevuto dall’applicazione. La sola etichetta devDependencies non è usata come prova di assenza nel Worker. La ricerca di nomi nei chunk è una verifica indicativa, non una prova formale. I downgrade suggeriti dall’audit non sono remediation compatibili collaudate. I dettagli e le fonti sono in DEPENDENCY_AUDIT; nessuna segnalazione dichiarata risolta.
+
+Per riprodurre da un nuovo checkout usare prima `npm ci`; non necessario in questa sessione, senza cambiamenti a dipendenze/lockfile. Procedura browser completa, con valori attesi e PASS/FAIL/NON ESEGUITO, in **QA_CHECKLIST**: eseguibile dal proprietario senza chat o strumenti agente.
+
+Evidenze ignorate in `test-results`: `m4a-build.log`, `m4a-tests.log`, `m4a-npm-audit.json`, `m4a-browser-results.json`, 17 PNG finali e cattura pre-fix; `m4a-evidence-manifest.json` registra dimensioni e SHA-256 dei 23 file di evidenza. Le catture non sono trasferite dal push. Il report versionato conserva copertura, metodo e risultati. Arrestato il solo Wrangler di questa demo con `x` dopo i test, senza fermare altri servizi.
+
+### Documentazione e consegna
+
+Creati **CONTENT_AUDIT.md** (ogni pagina, necessità di contenuti, proposte e motivazioni), **QA_CHECKLIST.md** (copertura ed esecuzione manuale residua), **DEPENDENCY_AUDIT.md** (catene, rilevanza, fonti e riproduzione). Aggiornati README, ARCHITECTURE, CONFIGURATOR, DEPLOYMENT, CASE_STUDY e questo registro. Nessuna proposta editoriale viene avviata automaticamente.
+
+Commit atomici sul solo branch di lavoro:
+
+- **`3eeead1` — `fix: keep configurator controls visible after Qwik updates`**, componente e CSS della correzione.
+- **`859c1b1` — `fix: describe the active configurator in the materials CTA`**, solo copy del link obsoleto.
+- `docs: record sequential Playwright QA evidence and remaining checks`, report e documenti aggiornati, compresa l’integrazione seguente; SHA ricavabile con `git log -3 --oneline`.
+
+Per ciascuno `git -c commit.gpgsign=false commit -F <messaggio-in-test-results>`, senza modifiche permanenti alla configurazione. Invio esclusivamente con `git push origin feature/mvp-foundation`, senza force; verifica finale con `git status --short`, `git diff --check` e confronto HEAD/origin atteso 0/0. Rollback con commit inversi delle sole modifiche desiderate, seguito da build e test, senza reset/merge/rebase.
+
+La 4A termina con i residui dichiarati e la procedura alternativa richiesta. Nessun deployment, login, provisioning o modifica a Cloudflare, DNS, Access, secrets, CI o billing. Nessuna milestone successiva avviata.
+
+### Integrazione 4A — connessione dedicata e verifica esclusiva
+
+**Stato cumulativo aggiornato; nessun nuovo bug applicativo dopo le due correzioni già registrate.** Il proprietario ha prima richiesto una nuova connessione MCP per completare le prove, poi disposto una fase esclusiva e sequenziale, limitata ai soli casi mancanti. Le due fasi sono distinte sotto; non si attribuiscono alla fase esclusiva prove già eseguite prima dell’ultima istruzione.
+
+#### Risultati recuperati prima della fase esclusiva
+
+- Richiesta al server MCP di un contesto isolato: errore di protocollo `Target.createBrowserContext: Not allowed`. Nessun aggiramento o browser alternativo. Una nuova scheda dedicata della demo ha invece risposto. Un successivo problema di clic fuori viewport è stato diagnosticato con `innerWidth/innerHeight` a zero nella nuova scheda; dopo impostazione esplicita a 1440 × 1000, il clic nativo sul reset funziona. Sono condizioni del browser di test, non bug applicativi.
+- **68/68 asserzioni native completate** sul bundle Pages: radio con `check`, input con `fill`, select con `selectOption`, reset con clic Playwright. Verificati i nove limiti, i 18 estremi con prezzo esatto calcolato indipendentemente, 18 adiacenti rifiutati, errori visibili, copia disabilitata, vuoto e decimale, reset completo di tutte le opzioni e dimensioni, controlli ancora visibili. Risultato `complete:true` conservato, non una deduzione dai test unitari.
+- **Tastiera effettivamente recuperata:** ArrowUp da 200 a 201 cm aggiorna a 513,99 €; Tab passa da larghezza ad altezza, Shift+Tab torna a larghezza. A 390: Tab sullo skip link, outline 3 px, Invio trasferisce focus al main; Tab percorre marchio e menu, Invio apre la navigazione (`aria-expanded=true`), Tab/Invio seguono Lavorazioni. Il percorso completo di radio/select/misure/reset/copia da sola tastiera rimane senza esito conclusivo: la relativa chiamata è stata interrotta.
+- Una prima asserzione nativa leggeva i limiti immediatamente dopo il cambio prodotto, prima dell’aggiornamento Qwik. Conservato il risultato parziale con 8 asserzioni riuscite e fallimento «table width bounds». Corretta **l’attesa del test**, verificando limiti e prezzo aggiornati prima del passo successivo; la routine da 68 casi passa senza cambiare codice applicativo.
+- Recuperato **Contatti a 390** tramite una richiesta di screenshot MCP dedicata. PNG completo, poi rivisto localmente: immagine, testi, FAQ, crediti e footer nei contenitori. Ora **18 screenshot finali** (6 × 1440, 6 × 768, 6 × 390), oltre al PNG del difetto iniziale. Rimangono 12 misure DOM responsive già restituite a 1440/768; non dichiarata matrice numerica 24/24.
+- L’ultima routine destinata a completare i viewport è stata interrotta dall’utente. Nel client non è più disponibile la cella (`exec cell 92 not found`) e non risultano PNG a 320. Nessun passo senza risultato viene contato come superato. Durante un tentativo di salvataggio, il VM del tool ha rifiutato `import()` con `ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING`: limite dell’ambiente del test, non errore del sito. Le evidenze sono state salvate dal workspace, senza modificare il prodotto.
+
+Risultati recuperati in `test-results/m4a-reconnection-results.json`, inclusi gli esiti parziali e null per la routine senza risultato. Lo script effettivamente eseguito dei 68 casi è `test-results/m4a-native-boundaries.js`. Queste risorse sono ignorate da Git; il report versionato ne registra risultati e metodo. Non sono state ripetute nella fase esclusiva.
+
+#### Ultima fase esclusiva: preflight riuscito, blocco prima dei test
+
+1. Riletti `docs/WORKLOG.md`, `docs/DEPLOYMENT.md` e regole operative; branch ancora `feature/mvp-foundation`, HEAD `859c1b1`. Le modifiche documentali presenti sono quelle autorizzate della 4A e di questa stessa sessione, non lavoro di terzi.
+2. Riutilizzato esclusivamente Wrangler locale già avviato da questa sessione, porta **8790**, override documentato della porta base 8788. Nessun nuovo processo duplicato e nessun servizio altrui arrestato. `Invoke-WebRequest http://127.0.0.1:8790/configuratore/ -UseBasicParsing -TimeoutSec 10`: **HTTP 200**, HTML con **483,18 €**, prima di ogni nuova chiamata Playwright di questa fase.
+3. Inviata una sola richiesta iniziale MCP: **`browser_tabs({action:"list"})`** per individuare la scheda dedicata prima di controllare URL/viewport. Nessuna risposta restituita; richiesta annullata nel client. Non è stato possibile selezionare/verificare la scheda, perciò **nessuna nuova sequenza funzionale o responsive è iniziata**. Nessun retry o ulteriore richiesta di connessione dopo il blocco, in conformità all’ultima istruzione.
+4. Classificazione: **accesso al servizio/connessione MCP bloccato**, mentre l’applicazione risponde via HTTP. Nessuna evidenza di nuovo difetto applicativo; la causa interna del servizio MCP non è accertata. Un’operazione interrotta lato client non prova né il completamento né l’annullamento della corrispondente operazione lato server.
+5. Arrestato con `x` il **solo Wrangler della sessione**, processo di esecuzione 48569, con messaggio `Shutting down local server` e uscita 0. Non riavviati, terminati o riconfigurati processi browser condivisi. Nessuna ulteriore chiamata Playwright attiva nel client di questa sessione; non si può confermare la chiusura dell’ultima scheda o lo stato del servizio senza una risposta MCP. Non vengono inviate altre richieste: il collaudo cessa e la sessione successiva può riprendere l’uso esclusivo secondo il coordinamento del proprietario.
+
+**Casi ancora mancanti:** sei rotte a 320; 404 visuale; intero percorso da tastiera nel configuratore; clipboard reale e rifiuto del permesso nel browser; lazy loading con scroll naturale; browser con JS disabilitato. Safari e screen reader restano fuori dalle prove completate. Le verifiche di vincoli/vuoti/decimali/reset e skip link/menu sopra sono ora concluse e non vanno ripetute senza un cambiamento o una nuova regressione.
+
+Nessuna modifica al codice applicativo in questa integrazione: **typecheck, lint, 15 test locali, 14 HTTP e build già superati sul medesimo codice non sono stati rieseguiti inutilmente**. Aggiornati report e worklog per distinguere prove concluse e residui, anziché aggiungere funzionalità o modificare il browser per superare il blocco. Solo controlli documentali/Git prima del commit. `AGENTS.md`, MVP, dipendenze, adapter e servizi invariati; nessun merge, rebase o deployment.
+
+Evidenze aggiornate: `m4a-exclusive-preflight.json` registra il preflight HTTP e il blocco all’inventario schede; il manifest finale contiene **28 artefatti** con SHA-256, compresi risultati recuperati, cattura Contatti e script locali. Controllati i link relativi dei 12 documenti Markdown, nessun file mancante; `git diff --check` senza errori. Dopo fetch il branch ha due commit locali e nessun commit remoto mancante (2/0 prima del commit documentale), nessuna divergenza. Diff nullo del codice applicativo rispetto a `859c1b1` e dei documenti protetti rispetto alla baseline.

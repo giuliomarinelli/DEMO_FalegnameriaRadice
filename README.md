@@ -4,6 +4,8 @@ Sito dimostrativo per una falegnameria artigiana **fittizia**. Azienda, informaz
 
 Stato: **milestone 3**, configuratore interattivo sulle fondamenta Qwik City SSR e sull’identità noce/betulla/rame/salvia. Tavolo, libreria e madia con tre essenze, tre finiture, misure vincolate, disegno proporzionale e stima simulata aggiornata con dettaglio dei fattori. Reset e riepilogo copiabile, con alternativa manuale. La formula è deterministica e documentata; nessun dato viene salvato o inviato.
 
+**Collaudo 4A:** corretto il difetto che nascondeva i controlli dopo una modifica Qwik. Disponibili 18 catture desktop/tablet/mobile, 68 verifiche native del configuratore e prove da tastiera su skip link/menu/navigazione. Restano 320 px, percorso completo da tastiera nel configuratore e altri casi dichiarati: nella fase esclusiva MCP non ha risposto all’elenco schede, con sito HTTP regolarmente disponibile. Copertura esatta e procedura manuale in [QA_CHECKLIST](docs/QA_CHECKLIST.md). Audit dipendenze ancora con 12 segnalazioni, analizzate senza aggiornamenti forzati.
+
 ## Avvio locale
 
 Prerequisiti: Node.js 22 da 22.12 (verificato con **22.16.0**) oppure Node 24; npm (verificato con **10.9.2**). Non servono account Cloudflare, login o credenziali.
@@ -60,6 +62,9 @@ Le pagine includono titolo, descrizione e Open Graph nel primo HTML. `noindex, n
 - [Fonti e licenze degli asset](docs/ASSETS.md)
 - [Direzione di marca e sistema visivo](docs/BRAND_DIRECTION.md)
 - [Configuratore: formula, assunzioni e verifiche](docs/CONFIGURATOR.md)
+- [Collaudo 4A, evidenze e verifiche manuali residue](docs/QA_CHECKLIST.md)
+- [Audit editoriale per pagina](docs/CONTENT_AUDIT.md)
+- [Rilevanza delle segnalazioni sulle dipendenze](docs/DEPENDENCY_AUDIT.md)
 - [Specifica MVP invariata](docs/MVP.md)
 
 Non è stato effettuato alcun deployment. I branch `preview` e `master`, l’accesso Cloudflare e le promozioni restano riservati al proprietario. Segnalazioni note delle dipendenze e limiti di verifica sono nel worklog.
