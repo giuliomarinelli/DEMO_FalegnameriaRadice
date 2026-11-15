@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f7f5ee;
-  --color-forest: #263e33;
-  --color-clay: #925137;
-  --color-sand: #eae5d8;
-  --color-muted: #62665b;
-  --color-line: #d1d2c5;
+  --color-walnut: #38271d;
+  --color-birch: #e9dcc5;
+  --color-copper: #b66b40;
+  --color-sage: #7c8065;
+  --color-paper: #f7f2e9;
+  --color-sand: #e9dcc5;
+  --color-muted: #695b4e;
+  --color-line: #d0c1aa;
+  --color-ink-copper: #8d4d2a;
   --font-sans: "Segoe UI", Arial, sans-serif;
   --font-display:
     "Palatino Linotype", "Book Antiqua", Palatino, "Iowan Old Style", Georgia,
@@ -17,9 +20,10 @@
   html {
     color-scheme: light;
     scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
   }
   body {
-    @apply m-0 bg-paper font-sans text-forest antialiased;
+    @apply m-0 bg-paper font-sans text-walnut antialiased;
   }
   button,
   a {
@@ -35,15 +39,21 @@
     text-decoration: underline;
   }
   :focus-visible {
-    outline: 3px solid var(--color-clay);
+    outline: 3px solid var(--color-ink-copper);
     outline-offset: 5px;
   }
-  footer :focus-visible {
-    outline-color: var(--color-paper);
+  .dark-surface :focus-visible {
+    outline-color: var(--color-birch);
   }
   ::selection {
-    background: var(--color-forest);
-    color: var(--color-paper);
+    background: var(--color-walnut);
+    color: var(--color-birch);
+  }
+  [id] {
+    scroll-margin-top: 2rem;
+  }
+  details > summary {
+    cursor: pointer;
   }
 }
 
@@ -52,13 +62,25 @@
     @apply mx-auto w-full max-w-[1440px] px-6 md:px-10 lg:px-16;
   }
   .eyebrow {
-    @apply text-[10px] font-semibold tracking-[.18em] uppercase;
+    @apply text-[10px] font-semibold tracking-[.17em] uppercase;
+  }
+  .section-title {
+    @apply font-display text-[clamp(2.3rem,4vw,4rem)] leading-[1.08] tracking-[-.025em];
+  }
+  .body-copy {
+    @apply text-base leading-8 text-muted;
+  }
+  .section-space {
+    @apply py-14 md:py-22;
   }
   .button-primary {
-    @apply inline-flex min-h-13 items-center justify-between gap-10 bg-forest px-6 py-4 text-sm text-paper transition-colors hover:bg-clay hover:no-underline;
+    @apply inline-flex min-h-13 items-center justify-between gap-8 bg-walnut px-6 py-4 text-sm text-paper transition-colors hover:bg-ink-copper hover:no-underline;
+  }
+  .button-light {
+    @apply inline-flex min-h-13 items-center justify-between gap-8 border border-birch/60 px-6 py-4 text-sm text-birch hover:bg-birch hover:text-walnut hover:no-underline;
   }
   .text-link {
-    @apply items-center gap-6 border-b border-forest pb-2 text-sm hover:text-clay hover:no-underline;
+    @apply inline-flex min-h-11 items-center justify-between gap-6 border-b border-current py-2 text-sm hover:text-ink-copper hover:no-underline;
   }
   .primary-navigation {
     @apply flex items-center gap-7 text-[13px];
@@ -67,84 +89,134 @@
     @apply py-3;
   }
   .nav-link[aria-current="page"] {
-    @apply underline decoration-clay decoration-2 underline-offset-8;
+    @apply underline decoration-copper decoration-2 underline-offset-8;
   }
   .nav-configurator {
-    @apply inline-flex min-h-11 items-center gap-5 border border-forest px-4 py-3 hover:bg-forest hover:text-paper hover:no-underline;
+    @apply inline-flex min-h-11 items-center gap-5 border border-walnut px-4 py-3 hover:bg-walnut hover:text-paper hover:no-underline;
   }
   .nav-configurator[aria-current="page"] {
-    @apply bg-forest text-paper;
+    @apply bg-walnut text-paper;
   }
   .menu-toggle {
     display: none;
   }
-  .craft-card {
-    @apply border-b border-line py-8 md:border-r md:border-b-0 md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0;
-  }
   .skip-link {
-    @apply fixed top-3 left-3 z-50 -translate-y-24 bg-paper px-5 py-3 text-forest focus:translate-y-0;
+    @apply fixed top-3 left-3 z-50 -translate-y-24 bg-paper px-5 py-3 text-walnut focus:translate-y-0;
+  }
+  .photo-credit {
+    @apply mt-3 flex flex-wrap justify-between gap-2 text-[11px] leading-5 text-muted;
+  }
+  .page-heading {
+    @apply border-b border-line bg-birch/45;
+  }
+  .drawing-link {
+    @apply block bg-birch/55 transition-colors hover:bg-birch hover:no-underline;
+  }
+  .furniture-drawing {
+    @apply block h-auto w-full;
+  }
+  .furniture-drawing text {
+    font:
+      10px "Segoe UI",
+      sans-serif;
+    letter-spacing: 0.08em;
+  }
+  .material-tile {
+    @apply block min-w-0 hover:no-underline;
+  }
+  .wood-swatch {
+    @apply h-36 w-full border border-walnut/15 md:h-48;
+  }
+  .fact-list {
+    @apply grid grid-cols-2 gap-x-6 gap-y-5 border-y border-line py-6 text-sm;
+  }
+  .fact-list dt {
+    @apply mb-1 text-[10px] tracking-widest text-muted uppercase;
+  }
+  .fact-list dd {
+    @apply leading-6;
+  }
+  .note {
+    @apply border-l-2 border-sage pl-5 text-sm leading-7 text-muted;
+  }
+  .faq-item {
+    @apply border-b border-line py-5;
+  }
+  .faq-item summary {
+    @apply min-h-11 py-2 pr-4 font-display text-xl;
+  }
+  .faq-item p {
+    @apply mt-3 max-w-3xl pb-2 text-sm leading-7 text-muted;
   }
 }
 
-/* Original material study: decorative CSS swatches, not product samples. */
-.material-study {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 320px;
-  padding: 32px 8px;
+/* Original CSS paper grain and illustrative wood swatches: no remote textures. */
+.paper-grain {
+  background-image: radial-gradient(#38271d0b 0.6px, transparent 0.6px);
+  background-size: 5px 5px;
 }
-.sample {
-  position: relative;
-  display: block;
-  width: 29%;
-  height: 250px;
-  box-shadow: 5px 15px 20px #263e3320;
-}
-.sample span {
-  position: absolute;
-  bottom: 14px;
-  left: 12px;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-}
-.sample-oak {
-  transform: rotate(-9deg);
+.swatch-walnut {
   background: repeating-linear-gradient(
     92deg,
-    #b68c5f 0,
-    #b68c5f 5px,
-    #ae8257 6px,
-    #bc966a 8px,
-    #b68c5f 17px
+    #60432e 0,
+    #60432e 10px,
+    #77543b 13px,
+    #4c3425 16px,
+    #60432e 28px
   );
-  color: #263e33;
 }
-.sample-walnut {
-  z-index: 1;
-  height: 270px;
-  transform: translateY(-6px);
+.swatch-oak {
   background: repeating-linear-gradient(
     89deg,
-    #684833 0,
-    #684833 8px,
-    #78573c 10px,
-    #5c402e 12px,
-    #684833 21px
+    #bc9568 0,
+    #bc9568 7px,
+    #ac8357 9px,
+    #c5a47c 12px,
+    #bc9568 24px
   );
-  color: #f7f5ee;
 }
-.sample-ash {
-  transform: rotate(9deg);
+.swatch-ash {
   background: repeating-linear-gradient(
     93deg,
-    #d6c5a4 0,
-    #d6c5a4 6px,
-    #c7b48d 7px,
-    #ddccab 10px,
-    #d6c5a4 19px
+    #d8c9a8 0,
+    #d8c9a8 10px,
+    #c6b48c 12px,
+    #e4d7bb 15px,
+    #d8c9a8 27px
   );
-  color: #263e33;
+}
+.finish-natural {
+  background: linear-gradient(115deg, #b59061, #d7ba8e);
+}
+.finish-matte {
+  background: #c9b894;
+}
+.finish-pigmented {
+  background: linear-gradient(115deg, #6e4a35, #926747);
+}
+.hero-photo {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: 45% 50%;
+}
+.hero-title {
+  font-size: clamp(3.6rem, 6.5vw, 6.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+}
+.hero-copy {
+  padding: 60px 48px 60px 0;
+}
+.hero-figure {
+  min-height: 590px;
+}
+.project-card {
+  min-width: 0;
 }
 
 @media (max-width: 1023px) {
@@ -169,6 +241,24 @@
   .nav-configurator {
     justify-content: space-between;
     margin-top: 8px;
+  }
+  .hero-copy {
+    padding-right: 28px;
+  }
+}
+@media (max-width: 767px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-copy {
+    padding: 44px 0;
+  }
+  .hero-figure {
+    min-height: 0;
+    height: 380px;
+  }
+  .hero-title {
+    font-size: clamp(3.3rem, 13vw, 5rem);
   }
 }
 @media (prefers-reduced-motion: reduce) {

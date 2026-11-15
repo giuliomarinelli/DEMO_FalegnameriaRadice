@@ -8,14 +8,14 @@ export const SiteHeader = component$(() => {
   const location = useLocation();
   return (
     <header class="border-b border-line">
-      <div class="bg-forest px-5 py-2 text-center text-[11px] tracking-[.07em] text-paper">
+      <div class="bg-walnut px-5 py-2 text-center text-[11px] tracking-[.07em] text-birch">
         Un progetto dimostrativo. Azienda, informazioni e operazioni sono
         simulate.
       </div>
       <div class="shell flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-6">
         <Brand />
         <button
-          class="menu-toggle min-h-11 border border-forest px-4 text-sm"
+          class="menu-toggle min-h-11 border border-walnut px-4 text-sm"
           type="button"
           aria-expanded={open.value}
           aria-controls="primary-navigation"

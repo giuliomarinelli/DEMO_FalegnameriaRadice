@@ -8,27 +8,27 @@ interface SectionIntroProps {
 }
 
 export const SectionIntro = component$<SectionIntroProps>((props) => (
-  <div class="shell py-12 md:py-20">
-    <a href="/" class="text-sm text-muted underline underline-offset-4">
-      ← Torna alla bottega
-    </a>
-    <div class="mt-12 grid gap-8 border-b border-line pb-12 md:grid-cols-[1.5fr_1fr] md:items-end">
-      <div>
-        <p class="eyebrow">
-          {props.number} / {props.label}
+  <div>
+    <div class="page-heading paper-grain">
+      <div class="shell py-12 md:py-20">
+        <p class="eyebrow text-muted">
+          Radice / {props.number} — {props.label}
         </p>
-        <h1 class="mt-6 max-w-3xl font-display text-5xl leading-[1.08] md:text-7xl">
-          {props.title}
-        </h1>
+        <div class="mt-7 grid gap-7 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-20">
+          <h1 class="font-display text-[clamp(2.8rem,5.8vw,5.5rem)] leading-[1.04] tracking-[-.035em]">
+            {props.title}
+          </h1>
+          <p class="max-w-xl leading-8 text-muted">{props.description}</p>
+        </div>
       </div>
-      <p class="max-w-lg text-lg leading-8 text-muted">{props.description}</p>
     </div>
-    <div class="py-12 md:py-16">
-      <Slot />
+    <Slot />
+    <div class="shell py-8">
+      <p class="border-t border-line pt-6 text-xs leading-6 text-muted">
+        Radice è una bottega immaginaria. Manufatti, misure e lavorazioni
+        descritti sono dimostrativi. Le fotografie sono riferimenti di
+        atmosfera, non lavori o persone dell’azienda.
+      </p>
     </div>
-    <p class="border-t border-line pt-6 text-xs leading-6 text-muted">
-      La bottega Radice è immaginaria. Testi e progetti sono dimostrativi; le
-      fotografie sono immagini di ispirazione, non lavori dell’azienda.
-    </p>
   </div>
 ));
