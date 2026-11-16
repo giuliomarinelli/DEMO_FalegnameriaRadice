@@ -47,6 +47,16 @@ Il collaudo aggiunge 24 screenshot rivisti sulle quattro larghezze, misure senza
 
 [CONTENT_AUDIT](CONTENT_AUDIT.md) individua opportunità mirate: rendere concreto il metodo, confrontare le opzioni e chiarire le CTA, senza riempire le pagine o inventare credenziali aziendali. [DEPENDENCY_AUDIT](DEPENDENCY_AUDIT.md) distingue le 12 segnalazioni e la loro esposizione effettiva, senza downgrade forzati. [QA_CHECKLIST](QA_CHECKLIST.md) conserva confini, risultati e residui del collaudo.
 
+## Milestone 4B — dal carattere al dettaglio
+
+Il metodo di Lavorazioni prende forma nel concept Convivio. Un passaggio ipotetico accanto al lato corto orienta la lettura del bordo smussato e delle gambe arretrate già previsti; il nodo gamba–traverso viene raccontato con un dettaglio SVG originale a tenone e mortasa. La vista esplosa è fuori scala, senza quote o verifiche strutturali. Nessuna nuova commessa, fotografia o promessa di ingombro garantito: sedie, aperture e passaggi richiederebbero un rilievo reale.
+
+Materiali affianca alle schede due sintesi comparative: tono e venatura delle tre essenze, aspetto e preferenze estetiche delle tre finiture. Nomi e caratteri visivi provengono dal catalogo esistente; i collegamenti riportano alle relative schede. Non vengono attribuite prestazioni, certificazioni o compatibilità tecniche. Le tabelle hanno caption e intestazioni semantiche e rimangono su una colonna fino al layout desktop ampio.
+
+Il Portfolio nomina esplicitamente il configuratore nella CTA esistente; la FAQ sul preventivo di Contatti collega direttamente la stima simulata, mantenendo l’avvertenza sui prezzi inventati. Non si aggiungono inviti ripetuti o nuove funzioni. Prodotti, opzioni, limiti, formula e stato reattivo rimangono invariati.
+
+La verifica usa typecheck, lint, formattazione, test locali esistenti e build Pages SSR, con risultati effettivi nel [WORKLOG](WORKLOG.md). Nessuno strumento di testing browser o nuova suite E2E è utilizzato, come richiesto per la 4B: non viene dichiarata una nuova accettazione visuale.
+
 ## Passi futuri separati
 
-La 4A si ferma al collaudo descritto. Eventuali completamenti manuali, interventi editoriali e preparazione alla pubblicazione richiedono una nuova istruzione. Nessuna pubblicazione è stata effettuata.
+La 4B si ferma agli interventi editoriali descritti. Eventuali collaudi visuali aggiornati, completamenti manuali e preparazione alla pubblicazione richiedono una nuova istruzione. Nessuna pubblicazione è stata effettuata.

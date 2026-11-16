@@ -4,6 +4,20 @@ import { SectionIntro } from "../../components/section-intro/section-intro";
 import { woods, finishes } from "../../lib/catalog";
 import { pageHead } from "../../lib/site";
 
+const woodPreferences: Record<(typeof woods)[number]["id"], string> = {
+  noce: "Per un accento scuro, con una venatura che rimane protagonista.",
+  rovere: "Per accostare toni miele e una trama evidente a forme semplici.",
+  frassino: "Per un insieme chiaro, scandito dal disegno vivace delle fibre.",
+};
+
+const finishPreferences: Record<(typeof finishes)[number]["id"], string> = {
+  "olio-naturale": "Per mettere al centro il tono caldo del legno.",
+  "trasparente-opaca":
+    "Per una lettura discreta della superficie, con luce morbida.",
+  "olio-pigmentato":
+    "Per un tono più pieno, mantenendo visibile il disegno delle fibre.",
+};
+
 export default component$(() => (
   <SectionIntro
     number="03"
@@ -88,7 +102,7 @@ export default component$(() => (
       </h2>
       <div class="mt-10 grid gap-8 md:grid-cols-3">
         {finishes.map((finish, i) => (
-          <article key={finish.id}>
+          <article key={finish.id} id={`finitura-${finish.id}`}>
             <div
               class={["h-24 border border-walnut/15", finish.className]}
               aria-hidden="true"
@@ -104,6 +118,90 @@ export default component$(() => (
         Finiture descritte a scopo dimostrativo: nessun marchio, ciclo
         applicativo o prestazione certificata. La compatibilità tra essenza,
         finitura e uso richiederebbe una verifica sul prodotto reale.
+      </p>
+    </section>
+
+    <section class="shell pb-14 md:pb-22" aria-labelledby="comparison-title">
+      <p class="eyebrow text-ink-copper">
+        Un colpo d’occhio / Orientamento estetico
+      </p>
+      <h2 id="comparison-title" class="section-title mt-4">
+        Confrontare, prima di scegliere.
+      </h2>
+      <p class="body-copy mt-6 max-w-3xl">
+        Le stesse tre essenze e tre finiture del configuratore, lette per
+        aspetto e preferenze visive. Nessuna graduatoria di qualità: il
+        confronto riguarda il carattere che immagini per l’arredo.
+      </p>
+      <div class="mt-10 grid gap-10 lg:grid-cols-2">
+        <table class="w-full table-fixed text-left text-sm leading-7">
+          <caption class="pb-5 text-left font-display text-3xl text-walnut">
+            Essenze / Tono e venatura
+          </caption>
+          <thead>
+            <tr class="border-b border-walnut/30">
+              <th scope="col" class="w-2/5 py-3 pr-4 font-semibold">
+                Essenza
+              </th>
+              <th scope="col" class="py-3 font-semibold">
+                Carattere e preferenza
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {woods.map((wood) => (
+              <tr key={wood.id} class="border-b border-line align-top">
+                <th scope="row" class="py-5 pr-4 font-semibold">
+                  <a href={`#${wood.id}`} class="underline underline-offset-4">
+                    {wood.name}
+                  </a>
+                </th>
+                <td class="py-5 text-muted">
+                  <p class="text-walnut">{wood.latin}</p>
+                  <p class="mt-2">{woodPreferences[wood.id]}</p>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <table class="w-full table-fixed text-left text-sm leading-7">
+          <caption class="pb-5 text-left font-display text-3xl text-walnut">
+            Finiture / Lettura della superficie
+          </caption>
+          <thead>
+            <tr class="border-b border-walnut/30">
+              <th scope="col" class="w-2/5 py-3 pr-4 font-semibold">
+                Finitura
+              </th>
+              <th scope="col" class="py-3 font-semibold">
+                Aspetto e preferenza
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {finishes.map((finish) => (
+              <tr key={finish.id} class="border-b border-line align-top">
+                <th scope="row" class="py-5 pr-4 font-semibold">
+                  <a
+                    href={`#finitura-${finish.id}`}
+                    class="underline underline-offset-4"
+                  >
+                    {finish.name}
+                  </a>
+                </th>
+                <td class="py-5 text-muted">
+                  <p class="text-walnut">{finish.look}</p>
+                  <p class="mt-2">{finishPreferences[finish.id]}</p>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-8">
+        Tono e luce sono indicativi: essenza e finitura vanno osservate insieme
+        su un campione fisico. Queste descrizioni non attestano resistenza,
+        protezione o altre prestazioni del materiale.
       </p>
     </section>
 
@@ -136,5 +234,5 @@ export default component$(() => (
 ));
 export const head = pageHead(
   "Materiali e finiture",
-  "Il campionario dimostrativo Radice: noce, rovere e frassino, tre direzioni di finitura e note sulla cura. Texture fotografiche e campioni illustrativi.",
+  "Noce, rovere e frassino a confronto: toni, venature e tre finiture del catalogo demo Radice. Orientamento estetico, campioni illustrativi e note sulla cura.",
 );

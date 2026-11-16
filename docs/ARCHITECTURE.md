@@ -75,6 +75,8 @@ TypeScript è strict e usa il runtime JSX `@builder.io/qwik`. Il valore convenzi
 
 ## Limiti intenzionali
 
+La milestone 4B aggiunge soltanto contenuti SSR nelle rotte esistenti: un caso Convivio e un SVG inline originale in `lavorazioni/index.tsx`, due tabelle comparative in `materiali/index.tsx`, collegamenti più espliciti in Portfolio e Contatti. Le tabelle leggono nomi e caratteri visivi da `catalog.ts`; le preferenze estetiche sono record editoriali locali tipizzati sugli ID del catalogo. Nessun nuovo stato, componente interattivo o dipendenza. Il dettaglio esploso è fuori scala e non è un disegno esecutivo. Non viene riutilizzato come anteprima del configuratore.
+
 Le sei pagine hanno contenuti dimostrativi completi, senza attività commerciali reali. Il configuratore è una simulazione locale: nessun ordine, invio, persistenza, controllo strutturale o valore commerciale. SSR, adapter, routing, entrypoint, configurazione hosting e dipendenze della foundation restano invariati. Il deployment richiede una richiesta separata del proprietario.
 
 ## Configuratore reattivo

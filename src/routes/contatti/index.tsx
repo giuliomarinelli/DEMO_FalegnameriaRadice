@@ -101,10 +101,13 @@ export default component$(() => (
           <details class="faq-item">
             <summary>Posso già ottenere un preventivo?</summary>
             <p>
-              Puoi usare il configuratore per ottenere una stima interamente
-              simulata, con formula esplicita, fattori di prezzo e riepilogo
-              copiabile. Le cifre sono inventate: non costituiscono un’offerta
-              commerciale e non permettono di effettuare ordini o invii.
+              Puoi{" "}
+              <a href="/configuratore/" class="underline underline-offset-4">
+                provare una stima simulata nel configuratore
+              </a>
+              , con formula esplicita, fattori di prezzo e riepilogo copiabile.
+              Le cifre sono inventate: non costituiscono un’offerta commerciale
+              e non permettono di effettuare ordini o invii.
             </p>
           </details>
           <details class="faq-item">

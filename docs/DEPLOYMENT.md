@@ -8,6 +8,8 @@ La milestone 4A aggiunge il collaudo sulle quattro larghezze, percorso completo 
 
 ## Riprodurre da un checkout pulito
 
+La revisione editoriale 4B non modifica adapter, configurazioni o procedura di hosting. I suoi contenuti sono inclusi nell’HTML SSR e verificati con la suite HTTP locale già disponibile. Non sono stati usati strumenti di testing browser: le evidenze visuali 4A restano storiche e non costituiscono accettazione del nuovo contenuto. Esiti e riproduzione nel [worklog](WORKLOG.md).
+
 Usare Node 22 da 22.12 (verificato 22.16.0), oppure Node 24, e npm. La versione Node deve restare coerente tra macchina e futura build ospitata. Eseguire dalla radice:
 
 ```powershell

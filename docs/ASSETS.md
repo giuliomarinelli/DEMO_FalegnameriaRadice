@@ -32,4 +32,6 @@ Le varianti responsive vengono rigenerate da Qwik durante la build; i byte delle
 
 Marchio ad anelli, favicon, campioni CSS, texture carta e disegni SVG di Convivio, Intervallo e Sponda sono creati per questa demo; nessuna libreria di icone o marchio di terzi. I disegni sono schemi illustrativi non in scala, non progetti esecutivi. Le frecce sono caratteri decorativi. Font di sistema, senza embedding o servizio esterno; Georgia è il fallback serif.
 
+La milestone 4B aggiunge il dettaglio SVG inline di bordo e tenone/mortasa in `src/routes/lavorazioni/index.tsx`, disegnato appositamente per il concept Convivio con primitive vettoriali originali. Non deriva da fotografie o disegni esterni; è fuori scala e non utilizzabile come esecutivo. Nessuna nuova fotografia, font o risorsa di terzi.
+
 Lo scaffold ufficiale Qwik deriva da https://github.com/QwikDev/qwik (MIT). Le dipendenze conservano le rispettive licenze nei pacchetti npm; questa nota non ne modifica i termini.

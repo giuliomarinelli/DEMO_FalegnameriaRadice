@@ -474,3 +474,75 @@ Riviste tutte le nuove immagini. Aggiornati QA_CHECKLIST, WORKLOG e i documenti 
 Consegna documentale atomica sul branch corrente, firma disattivata soltanto nel singolo comando `git -c commit.gpgsign=false commit -F <messaggio-locale>`, push solo a `feature/mvp-foundation`. Nessun merge, rebase, deployment o modifica infrastrutturale; AGENTS e MVP invariati. La milestone si ferma qui con i due residui specifici dichiarati, senza riclassificarli come guasto del servizio.
 
 Controlli conclusivi di questa ripresa: 24 PNG della matrice presenti e terminati correttamente (`IEND`), nuove immagini riviste, manifest di **48 artefatti** con SHA-256; link dei 12 documenti Markdown verificati, nessun file mancante; `git diff --check` senza errori. Diff applicativo nullo rispetto a `f543046`, branch allineato prima del commit documentale. Nessun listener rimasto sulla porta locale 8790 dopo lo shutdown. Commit previsto: `docs: correct Playwright attribution and finish browser checks`.
+
+## 2026-11-16 — Milestone 4B: materia, lavorazioni e orientamento
+
+### Perimetro e stato iniziale
+
+Letti AGENTS, MVP, BRAND_DIRECTION, CONTENT_AUDIT e il worklog, insieme alla documentazione della foundation. Working tree iniziale pulito; branch esistente `feature/mvp-foundation`, HEAD `c63fe76`. Eseguito `git fetch origin`: confronto con `origin/feature/mvp-foundation` a 0 commit avanti/0 indietro. Nessun nuovo branch, worktree o subagente.
+
+L’istruzione 4B autorizza soltanto contenuti e orientamento nelle quattro pagine indicate. Nessuno strumento di testing browser, nessuna nuova suite E2E. Le catture della 4A rimangono evidenze storiche, senza attribuirle al contenuto aggiunto oggi.
+
+### Interventi e motivazioni
+
+- **Lavorazioni:** sostituita la spiegazione generica dei dettagli con un piccolo caso concettuale Convivio. Il passaggio ipotetico verso una finestra accanto al lato corto rende comprensibili il bordo smussato e i sostegni arretrati già descritti nel catalogo; non sono promessi passaggi verificati o prestazioni. Il nodo gamba–traverso riprende il tenone e mortasa esistente. SVG inline originale, con titolo, descrizione e legenda testuale; vista esplosa fuori scala, senza quote o indicazioni esecutive. La fotografia esistente resta attribuita e distinta dal concept. Il collegamento finale porta direttamente a `/portfolio/#convivio`.
+- **Materiali:** due tabelle sintetiche confrontano le tre essenze e le tre finiture per tono, venatura e preferenza estetica. Nomi e caratteri visivi sono letti da `catalog.ts`, senza modificarlo; i brevi orientamenti aggiuntivi sono record editoriali tipizzati sugli ID esistenti nella sola rotta Materiali. Caption, intestazioni di colonna/riga e collegamenti alle schede rendono esplicita la struttura. Le tabelle si affiancano solo da `lg`; SVG fluido e assenza di larghezze rigide evitano requisiti di spazio aggiuntivi nel sorgente, senza dichiarare una verifica visuale eseguita.
+- **Portfolio:** sostituita la sola etichetta della CTA già presente con «Prova il configuratore di arredi». Un solo invito nel main, nessuna aggiunta ripetitiva.
+- **Contatti:** collegata la frase della FAQ sul preventivo alla stima nel configuratore, conservando l’avviso su cifre inventate, assenza di offerta e ordini.
+- **Documentazione:** aggiornati CASE_STUDY, README, ARCHITECTURE, DEPLOYMENT e stato di attuazione del CONTENT_AUDIT; ASSETS registra provenienza originale del dettaglio SVG. Nessuna nuova fotografia o risorsa esterna.
+
+Le sole modifiche applicative sono nelle quattro rotte editoriali. Diff nullo rispetto a `c63fe76` per AGENTS, MVP, catalogo, dominio/prezzi, componenti, rotta configuratore, test, package/lockfile, adapter, Vite e configurazione Wrangler. Prodotti, dimensioni consentite, opzioni, formula, stato reattivo e comportamento del configuratore restano invariati.
+
+### Comandi e risultati effettivi
+
+Dipendenze locali già presenti: nessuna reinstallazione, aggiornamento o modifica al lockfile. Formattate soltanto le quattro rotte con `npx --no-install prettier --write <file>`.
+
+| Controllo | Risultato |
+| --- | --- |
+| `npm run typecheck` | Passato, uscita 0 |
+| `npm run lint` | Passato, zero warning ESLint, uscita 0 |
+| `npm run fmt.check` | Passato, uscita 0 |
+| `npm run test.unit` | **15/15** test esistenti passati: modello e componenti Qwik con DOM di test ufficiale, nessun browser |
+| `npm run build` | Passata, uscita 0; client e server SSR generati dall’adapter ufficiale |
+| `npm run serve -- --port 8790` | Wrangler **4.162.0**, workerd locale su `127.0.0.1`, Worker compilato, nessun binding remoto |
+| `TEST_BASE_URL=http://127.0.0.1:8790` + `npm run test.ssr` | **14/14** test esistenti passati: artefatti Worker/client, nessun HTML pubblico prerenderizzato, sei richieste dirette con H1/metadati, configurazione iniziale, 404, link/frammenti, immagini e tipi MIME |
+| Controllo mirato HTTP dell’HTML 4B | Quattro HTTP 200; SVG con titolo/descrizione, avviso concept e link Convivio; due tabelle/caption e sei righe opzioni; ancore delle finiture; unica CTA nel main Portfolio; FAQ con link e disclaimer; nessun ID duplicato nelle quattro pagine |
+| Collegamenti Markdown locali | **40** destinazioni leggibili, nessuna mancante al controllo |
+
+Gli ultimi due controlli sono letture statiche e richieste `fetch` da Node, senza eseguire script del sito o utilizzare un browser. Lo script occasionale e i log sono in `test-results/`, ignorata da Git; non viene aggiunta alcuna suite o dipendenza. Log locali: `m4b-build.log`, `m4b-unit.log`, `m4b-ssr.log` (primo tentativo), `m4b-ssr-corrected.log` (esito valido), `m4b-content-http.json` (riepilogo dei controlli mirati). Non sono trasferiti dal push: comandi e risultati sono riportati qui per consentire la riproduzione.
+
+Per riprodurre con PowerShell, dalla radice e senza un runtime precedente attivo:
+
+```powershell
+npm run typecheck
+npm run lint
+npm run fmt.check
+npm run test.unit
+npm run build
+npm run serve -- --port 8790
+```
+
+Nel secondo terminale:
+
+```powershell
+$env:TEST_BASE_URL = 'http://127.0.0.1:8790'
+npm run test.ssr
+Remove-Item Env:TEST_BASE_URL
+```
+
+Le nuove parti si trovano nell’HTML di `/lavorazioni/`, `/materiali/`, `/portfolio/` e `/contatti/`; non occorre JavaScript per leggerle. Il test HTTP dei link include anche i nuovi frammenti. Concludere il runtime con `x` nel primo terminale.
+
+### Anomalie osservate e limiti
+
+- La prima esecuzione HTTP ha usato la porta **8788**, come dichiara il suo log, mentre Wrangler ascoltava su **8790**: 1 controllo artefatti passato, 13 richieste fallite con `fetch failed`. Il passaggio della variabile nel comando `cmd.exe` non aveva impostato il target previsto. Corretto il comando in `set TEST_BASE_URL=http://127.0.0.1:8790&&npm run test.ssr`: il log successivo conferma il target e **14/14** passati. Errore del comando di collaudo, nessuna correzione applicativa richiesta.
+- Alcuni avvii di processi PowerShell tramite il runner hanno restituito `CreateProcess … Accesso negato (os error 5)`. Proseguito con `cmd.exe` esplicito, senza cambiare permessi o configurazioni del sistema. Nessun blocco residuo sulle verifiche richieste.
+- La build emette warning `NO_COLOR`/`FORCE_COLOR`, messaggi `worker exit 1` e la nota dell’adapter sui cache header, ma conclude con uscita **0** e spunte client/server, typecheck e lint. Il Worker è poi compilato da Wrangler e supera i 14 test HTTP. I messaggi sono conservati nel log; non si deduce una causa non verificata né si forza un aggiornamento delle dipendenze.
+- Nessuna nuova verifica visuale, responsive, tastiera o screen reader: gli strumenti browser sono esclusi da questa richiesta. Non vengono dichiarati risolti i residui specifici della 4A, né rieseguito l’audit dipendenze o il collaudo completo del configuratore nel browser. Nessun nuovo problema applicativo riproducibile rilevato dai controlli eseguiti.
+
+### Consegna e rollback
+
+Un commit atomico per contenuti e documentazione: `feat: enrich craft case and material guidance`, con firma disabilitata esclusivamente nel comando `git -c commit.gpgsign=false commit -F <messaggio-locale>`, quindi push esclusivo a `origin/feature/mvp-foundation`. Recuperare SHA e file con `git log -1 --stat`; nessun merge, rebase, force push, deployment o intervento Cloudflare. Arrestato con `x` soltanto il runtime della sessione 82424: messaggio di shutdown, uscita 0 e successiva richiesta HTTP con `ECONNREFUSED` sulla porta 8790. Nessun processo condiviso toccato.
+
+Controlli conclusivi: `git diff --check` passato; confermati 40 collegamenti Markdown locali, nessun file inatteso o non tracciato e confronto remoto 0/0 prima del commit. Le 11 modifiche previste comprendono soltanto quattro rotte e sette documenti. I messaggi LF/CRLF riflettono la conversione Git già configurata e non comportano una modifica delle impostazioni.
+
+Rollback riproducibile, soltanto se richiesto in futuro: con tree pulito sul branch di lavoro, `git revert <SHA-del-commit-4B>`, ripetere typecheck/lint/test/build e test HTTP locali, poi normale push dello stesso branch. Non usare reset o force push. La milestone termina qui; ulteriori contenuti, prove browser e pubblicazione richiedono un’istruzione separata.

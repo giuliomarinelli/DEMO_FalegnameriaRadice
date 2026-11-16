@@ -6,6 +6,8 @@ Stato: **milestone 3**, configuratore interattivo sulle fondamenta Qwik City SSR
 
 **Collaudo 4A:** corretto il difetto che nascondeva i controlli dopo una modifica Qwik. Completati 68 casi nativi, percorso da tastiera del configuratore, copia/incolla reali e 24 catture delle sei pagine a 1440/768/390/320 px. Rettificata la precedente attribuzione non dimostrata di un guasto a MCP. Prove effettive, simulazioni e residui specifici in [QA_CHECKLIST](docs/QA_CHECKLIST.md). Audit dipendenze ancora con 12 segnalazioni, analizzate senza aggiornamenti forzati.
 
+**Contenuti 4B:** caso concettuale Convivio con dettaglio SVG originale in Lavorazioni, confronto estetico di essenze e finiture in Materiali, invito esplicito al configuratore nel Portfolio e collegamento alla stima nella FAQ Contatti. Nessuna modifica al configuratore. Verifiche locali e confini della consegna in [WORKLOG](docs/WORKLOG.md); nessun nuovo collaudo browser in questa milestone.
+
 ## Avvio locale
 
 Prerequisiti: Node.js 22 da 22.12 (verificato con **22.16.0**) oppure Node 24; npm (verificato con **10.9.2**). Non servono account Cloudflare, login o credenziali.

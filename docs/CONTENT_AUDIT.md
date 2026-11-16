@@ -30,3 +30,7 @@ La fotografia degli utensili è riutilizzata in home, Lavorazioni e Contatti. È
 4. Solo dopo, valutare la concisione del configuratore mobile e delle chiusure ripetitive.
 
 Nessuna nuova sezione, funzionalità, servizio o restyling deriva automaticamente da questo audit. I soli interventi applicativi della 4A sono registrati nel worklog.
+
+## Attuazione autorizzata — milestone 4B
+
+L’audit sopra conserva la situazione della 4A. La successiva istruzione 4B autorizza gli interventi mirati su quattro pagine: caso concettuale Convivio e dettaglio SVG in Lavorazioni; confronto estetico delle opzioni esistenti in Materiali; CTA del Portfolio esplicitamente rivolta al configuratore; collegamento contestuale nella FAQ sul preventivo di Contatti. Non vengono applicate le altre proposte, né modificato il configuratore. La verifica 4B è locale e senza strumenti browser; i residui del collaudo precedente non sono riclassificati come risolti. Dettagli ed esiti in [WORKLOG](WORKLOG.md).

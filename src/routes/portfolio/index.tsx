@@ -107,8 +107,7 @@ export default component$(() => (
             raccontati dai disegni originali di questa pagina.
           </p>
           <a href="/configuratore/" class="button-primary mt-7">
-            Esplora le possibilità del su misura{" "}
-            <span aria-hidden="true">↗</span>
+            Prova il configuratore di arredi <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
