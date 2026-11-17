@@ -1,0 +1,44 @@
+{
+  "name": "falegnameria-radice-demo",
+  "description": "Demo artigiana Qwik City SSR — milestone 1",
+  "engines": {
+    "node": ">=22.12.0 <23 || >=24.0.0 <25"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode ssr --host 127.0.0.1",
+    "start": "vite --mode ssr --host 127.0.0.1",
+    "build": "qwik build",
+    "build.client": "vite build",
+    "build.server": "qwik check-client src dist && vite build -c adapters/cloudflare-pages/vite.config.ts",
+    "build.types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "test": "npm run test.unit && npm run test.ssr",
+    "test.unit": "tsc -p tsconfig.tests.json && node tests/prepare-components.mjs && node --conditions=development --test tests/configurator.test.mjs tests/configurator.component.test.mjs",
+    "test.ssr": "node --test tests/ssr.test.mjs",
+    "serve": "wrangler pages dev --ip 127.0.0.1",
+    "fmt": "prettier --write src adapters tests vite.config.ts eslint.config.js package.json tsconfig.json tsconfig.tests.json wrangler.jsonc",
+    "fmt.check": "prettier --check src adapters tests vite.config.ts eslint.config.js package.json tsconfig.json tsconfig.tests.json wrangler.jsonc",
+    "qwik": "qwik"
+  },
+  "devDependencies": {
+    "@builder.io/qwik": "^1.20.4",
+    "@builder.io/qwik-city": "^1.20.4",
+    "@eslint/js": "^9",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/node": "^22.20.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-qwik": "^1.20.4",
+    "globals": "16.4.0",
+    "prettier": "3.6.2",
+    "tailwindcss": "^4.3.5",
+    "typescript": "5.4.5",
+    "typescript-eslint": "^8.72.2",
+    "vite": "7.3.7",
+    "vite-tsconfig-paths": "^4.2.1",
+    "wrangler": "^4.162.0"
+  },
+  "version": "0.1.0"
+}
