@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+@theme {
+  --color-walnut: #38271d;
+  --color-birch: #e9dcc5;
+  --color-copper: #b66b40;
+  --color-sage: #7c8065;
+  --color-paper: #f7f2e9;
+  --color-sand: #e9dcc5;
+  --color-muted: #695b4e;
+  --color-line: #d0c1aa;
+  --color-ink-copper: #8d4d2a;
+  --font-sans: "Segoe UI", Arial, sans-serif;
+  --font-display:
+    "Palatino Linotype", "Book Antiqua", Palatino, "Iowan Old Style", Georgia,
+    serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+  }
+  body {
+    @apply m-0 bg-paper font-sans text-walnut antialiased;
+  }
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    cursor: pointer;
+  }
+  a {
+    text-underline-offset: 5px;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink-copper);
+    outline-offset: 5px;
+  }
+  .dark-surface :focus-visible {
+    outline-color: var(--color-birch);
+  }
+  ::selection {
+    background: var(--color-walnut);
+    color: var(--color-birch);
+  }
+  [id] {
+    scroll-margin-top: 2rem;
+  }
+  details > summary {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1440px] px-6 md:px-10 lg:px-16;
+  }
+  .eyebrow {
+    @apply text-[10px] font-semibold tracking-[.17em] uppercase;
+  }
+  .section-title {
+    @apply font-display text-[clamp(2.3rem,4vw,4rem)] leading-[1.08] tracking-[-.025em];
+  }
+  .body-copy {
+    @apply text-base leading-8 text-muted;
+  }
+  .section-space {
+    @apply py-14 md:py-22;
+  }
+  .button-primary {
+    @apply inline-flex min-h-13 items-center justify-between gap-8 bg-walnut px-6 py-4 text-sm text-paper transition-colors hover:bg-ink-copper hover:no-underline;
+  }
+  .button-light {
+    @apply inline-flex min-h-13 items-center justify-between gap-8 border border-birch/60 px-6 py-4 text-sm text-birch hover:bg-birch hover:text-walnut hover:no-underline;
+  }
+  .text-link {
+    @apply inline-flex min-h-11 items-center justify-between gap-6 border-b border-current py-2 text-sm hover:text-ink-copper hover:no-underline;
+  }
+  .primary-navigation {
+    @apply flex items-center gap-7 text-[13px];
+  }
+  .nav-link {
+    @apply py-3;
+  }
+  .nav-link[aria-current="page"] {
+    @apply underline decoration-copper decoration-2 underline-offset-8;
+  }
+  .nav-configurator {
+    @apply inline-flex min-h-11 items-center gap-5 border border-walnut px-4 py-3 hover:bg-walnut hover:text-paper hover:no-underline;
+  }
+  .nav-configurator[aria-current="page"] {
+    @apply bg-walnut text-paper;
+  }
+  .menu-toggle {
+    display: none;
+  }
+  .skip-link {
+    @apply fixed top-3 left-3 z-50 -translate-y-24 bg-paper px-5 py-3 text-walnut focus:translate-y-0;
+  }
+  .photo-credit {
+    @apply mt-3 flex flex-wrap justify-between gap-2 text-[11px] leading-5 text-muted;
+  }
+  .page-heading {
+    @apply border-b border-line bg-birch/45;
+  }
+  .drawing-link {
+    @apply block bg-birch/55 transition-colors hover:bg-birch hover:no-underline;
+  }
+  .furniture-drawing {
+    @apply block h-auto w-full;
+  }
+  .furniture-drawing text {
+    font:
+      10px "Segoe UI",
+      sans-serif;
+    letter-spacing: 0.08em;
+  }
+  .material-tile {
+    @apply block min-w-0 hover:no-underline;
+  }
+  .wood-swatch {
+    @apply h-36 w-full border border-walnut/15 md:h-48;
+  }
+  .fact-list {
+    @apply grid grid-cols-2 gap-x-6 gap-y-5 border-y border-line py-6 text-sm;
+  }
+  .fact-list dt {
+    @apply mb-1 text-[10px] tracking-widest text-muted uppercase;
+  }
+  .fact-list dd {
+    @apply leading-6;
+  }
+  .note {
+    @apply border-l-2 border-sage pl-5 text-sm leading-7 text-muted;
+  }
+  .faq-item {
+    @apply border-b border-line py-5;
+  }
+  .faq-item summary {
+    @apply min-h-11 py-2 pr-4 font-display text-xl;
+  }
+  .faq-item p {
+    @apply mt-3 max-w-3xl pb-2 text-sm leading-7 text-muted;
+  }
+  .config-label {
+    @apply mb-2 block text-sm font-semibold;
+  }
+  .config-input {
+    @apply block min-h-12 w-full min-w-0 border border-walnut/50 bg-paper px-3 py-3 text-base text-walnut;
+  }
+  .config-input[aria-invalid="true"] {
+    @apply border-ink-copper border-2;
+  }
+  .config-choice {
+    @apply flex min-h-12 cursor-pointer items-start gap-3 border border-line bg-paper p-4;
+  }
+  .config-choice input {
+    @apply mt-1.5 h-4 w-4 shrink-0 accent-walnut;
+  }
+  .config-choice.is-selected {
+    @apply border-walnut bg-birch/55;
+  }
+  .config-choice:focus-within {
+    outline: 3px solid var(--color-ink-copper);
+    outline-offset: 3px;
+  }
+  .button-secondary {
+    @apply inline-flex min-h-12 items-center justify-center border border-walnut px-5 py-3 text-sm hover:bg-birch;
+  }
+}
+
+/* Original CSS paper grain and illustrative wood swatches: no remote textures. */
+.paper-grain {
+  background-image: radial-gradient(#38271d0b 0.6px, transparent 0.6px);
+  background-size: 5px 5px;
+}
+.swatch-walnut {
+  background: repeating-linear-gradient(
+    92deg,
+    #60432e 0,
+    #60432e 10px,
+    #77543b 13px,
+    #4c3425 16px,
+    #60432e 28px
+  );
+}
+.swatch-oak {
+  background: repeating-linear-gradient(
+    89deg,
+    #bc9568 0,
+    #bc9568 7px,
+    #ac8357 9px,
+    #c5a47c 12px,
+    #bc9568 24px
+  );
+}
+.swatch-ash {
+  background: repeating-linear-gradient(
+    93deg,
+    #d8c9a8 0,
+    #d8c9a8 10px,
+    #c6b48c 12px,
+    #e4d7bb 15px,
+    #d8c9a8 27px
+  );
+}
+.finish-natural {
+  background: linear-gradient(115deg, #b59061, #d7ba8e);
+}
+.finish-matte {
+  background: #c9b894;
+}
+.finish-pigmented {
+  background: linear-gradient(115deg, #6e4a35, #926747);
+}
+.hero-photo {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: 45% 50%;
+}
+.hero-title {
+  font-size: clamp(3.6rem, 6.5vw, 6.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+}
+.hero-copy {
+  padding: 60px 48px 60px 0;
+}
+.hero-figure {
+  min-height: 590px;
+}
+.project-card {
+  min-width: 0;
+}
+
+@media (max-width: 1023px) {
+  .menu-toggle {
+    display: block;
+  }
+  .primary-navigation {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-top: 1px solid var(--color-line);
+    padding-top: 12px;
+  }
+  .primary-navigation.is-open {
+    display: flex;
+  }
+  .nav-link {
+    min-height: 48px;
+  }
+  .nav-configurator {
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .hero-copy {
+    padding-right: 28px;
+  }
+}
+@media (max-width: 767px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-copy {
+    padding: 44px 0;
+  }
+  .hero-figure {
+    min-height: 0;
+    height: 380px;
+  }
+  .hero-title {
+    font-size: clamp(3.3rem, 13vw, 5rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+  }
+}
+@media (scripting: none) and (max-width: 1023px) {
+  .menu-toggle {
+    display: none;
+  }
+  .primary-navigation {
+    display: flex;
+  }
+}
+
+/* Keep this outside noscript: Qwik may recreate its children on an update. */
+@media (scripting: none) {
+  .config-controls,
+  .config-actions {
+    display: none;
+  }
+}

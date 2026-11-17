@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/server
+/.wrangler
+/test-results
+/.playwright-mcp
+/package-lock.json
+*.log
+.env*
+.dev.vars*
